@@ -1,92 +1,2002 @@
-/* Mobile Navigation (Updated: Hide CTAs) */
-@media (max-width: 768px) {
-  .mobile-menu-btn { display: flex; }
-  
-  header {
-    padding: 0.8rem;
-    gap: 0.5rem;
-  }
-  
-  /* Hide Register/Call buttons on mobile */
-  .nav-cta {
-    display: none;
-  }
-  
-  .nav-links {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(2, 6, 23, 0.98);
-    backdrop-filter: blur(20px);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    z-index: 32;
-    animation: slideIn 0.4s ease-out;
-  }
-  
-  /* ... rest same as before ... */
-}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aakruthi 2K26 | ECE Fest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-/* Brand Overflow Fix - Responsive Font & Flex */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 1; /* Allow shrinking */
-  min-width: 0; /* Prevent flex child overflow */
-}
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* Clip long text */
-}
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
 
-.brand-text h1 {
-  font-family: Orbitron, system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: clamp(0.85rem, 3vw, 0.95rem); /* Responsive: 0.85rem min, scales to viewport */
-  white-space: nowrap; /* Prevent wrapping */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Add ... if too long */
-  margin: 0;
-}
+    <style>
+      :root {
+        --bg: #020017;
+        --bg-alt: #060019;
+        --neon-pink: #ff2bf2;
+        --neon-blue: #4be4ff;
+        --neon-purple: #a855ff;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --card: rgba(8, 0, 40, 0.92);
+        --border: rgba(148, 163, 184, 0.5);
+      }
 
-.brand-text p {
-  font-size: clamp(0.65rem, 2.5vw, 0.7rem);
-  color: var(--text-muted);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-@media (max-width: 480px) {
-  .brand {
-    gap: 0.5rem;
-  }
-  
-  .brand-logo {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-  }
-}
+      body {
+        min-height: 100vh;
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--text-main);
+        background:
+          radial-gradient(circle at 0 0, #ff00ff33 0, transparent 55%),
+          radial-gradient(circle at 100% 100%, #00f0ff33 0, transparent 55%),
+          radial-gradient(circle at 50% 100%, #f9731633 0, transparent 55%),
+          #020617;
+        overflow-x: hidden;
+        cursor: none; /* hide default cursor */
+      }
 
-/* Enhanced Responsive Typography (Updated) */
-@media (max-width: 768px) {
-  .hero-logo-text { 
-    font-size: clamp(1.8rem, 8vw, 2.2rem); 
-    letter-spacing: 0.2em; 
-  }
-}
+      a {
+        color: inherit;
+        text-decoration: none;
+        cursor: none;
+      }
 
-@media (max-width: 480px) {
-  .hero-logo-text { letter-spacing: 0.15em; }
-}
+      /* Custom cursor (cursor + follower) */
+      .cursor-dot,
+      .cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        border-radius: 999px;
+        transform: translate(-50%, -50%);
+        z-index: 10000;
+        mix-blend-mode: screen;
+      }
+
+      .cursor-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--neon-pink);
+        box-shadow: 0 0 20px #ff2bf2aa;
+      }
+
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(75, 228, 255, 0.8);
+        box-shadow: 0 0 35px #4be4ff88;
+        background: radial-gradient(
+          circle,
+          rgba(75, 228, 255, 0.45) 0,
+          transparent 60%
+        );
+      }
+
+      .cursor-ring.active {
+        width: 52px;
+        height: 52px;
+        border-width: 2px;
+        box-shadow: 0 0 45px #ff2bf2cc;
+        border-color: rgba(255, 43, 242, 0.9);
+      }
+
+      /* Loader */
+      #loader {
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 50% 20%, #ff00ff11 0, transparent 55%),
+          #020010;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        z-index: 9999;
+      }
+      .loader-ring {
+        width: 90px;
+        height: 90px;
+        border-radius: 999px;
+        border: 3px solid rgba(148, 163, 184, 0.2);
+        border-top-color: var(--neon-pink);
+        border-right-color: var(--neon-blue);
+        animation: spin 1s linear infinite;
+        box-shadow:
+          0 0 30px #ff2bf299,
+          0 0 40px #4be4ff66;
+      }
+      .loader-text {
+        font-family: "Orbitron", system-ui, sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      main {
+        opacity: 0;
+      }
+
+      .page {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 1.5rem 1.25rem 3.5rem;
+        position: relative;
+      }
+
+      /* Neon skyline background */
+      .skyline {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background:
+          linear-gradient(to bottom, rgba(10, 10, 35, 0.1), #020617 65%),
+          url("https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=1600")
+            center/cover no-repeat;
+        filter: saturate(1.2) contrast(1.05);
+        opacity: 0.23;
+      }
+
+      .gradient-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 20% 0, #ff00ff33 0, transparent 55%),
+          radial-gradient(circle at 80% 100%, #22d3ee44 0, transparent 55%);
+        mix-blend-mode: screen;
+      }
+
+      /* Top nav */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.7rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background:
+          radial-gradient(circle at 0 0, #ff00ff33 0, transparent 60%),
+          rgba(3, 7, 18, 0.92);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+        position: sticky;
+        top: 0.9rem;
+        z-index: 30;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .brand-logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        border: 1px solid #4be4ffcc;
+        background: radial-gradient(
+          circle at 30% 0,
+          #ff2bf2 0,
+          #4be4ff 45%,
+          #020617 80%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 20px #4be4ff88;
+        font-family: "Orbitron", system-ui, sans-serif;
+        font-size: 1.15rem;
+      }
+
+      .brand-text h1 {
+        font-family: "Orbitron", system-ui, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.95rem;
+      }
+
+      .brand-text p {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        font-family: "Orbitron", system-ui, sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+
+      .nav-links a {
+        position: relative;
+        padding-bottom: 0.2rem;
+        cursor: none;
+        color: #e5e7eb;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+        transition: width 0.2s ease-out;
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .nav-cta {
+        display: flex;
+        gap: 0.6rem;
+      }
+
+      .btn {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        padding: 0.45rem 0.9rem;
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: none;
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        transition: all 0.18s ease-out;
+      }
+
+      .btn-primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+        color: #020617;
+        font-weight: 600;
+        box-shadow: 0 14px 36px #ff2bf266;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+      }
+
+      /* Side nav */
+      .side-nav {
+        position: fixed;
+        left: 0.9rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        z-index: 25;
+      }
+
+      .side-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        background: rgba(3, 7, 18, 0.92);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: none;
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        letter-spacing: 0.22em;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .side-icon::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, #ff2bf2aa, #4be4ffaa);
+        opacity: 0;
+        mix-blend-mode: screen;
+        transition: opacity 0.25s ease-out;
+      }
+
+      .side-icon span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .side-icon:hover::before {
+        opacity: 0.28;
+      }
+
+      section {
+        padding-top: 5rem;
+        scroll-margin-top: 5rem;
+      }
+
+      /* Hero */
+      #hero {
+        display: grid;
+        grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.3fr);
+        gap: 1.7rem;
+        align-items: center;
+        padding-top: 3rem;
+      }
+
+      .hero-main-title {
+        font-family: "Orbitron", system-ui, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.35em;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 0.6rem;
+      }
+
+      .hero-logo-text {
+        font-family: "Orbitron", system-ui, sans-serif;
+        font-size: 2.6rem;
+        line-height: 1.1;
+        text-transform: uppercase;
+        color: #f9fafb;
+        text-shadow:
+          0 0 18px #ff2bf288,
+          0 0 22px #4be4ff88;
+      }
+
+      .hero-subline {
+        margin-top: 0.6rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        max-width: 30rem;
+      }
+
+      .hero-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        font-size: 0.75rem;
+      }
+
+      .meta-pill {
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .meta-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--neon-blue);
+        box-shadow: 0 0 12px var(--neon-blue);
+      }
+
+      .hero-cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.4rem;
+      }
+
+      .hero-card {
+        border-radius: 1.4rem;
+        padding: 1.1rem;
+        background:
+          radial-gradient(circle at 0 0, #ff2bf233 0, transparent 55%),
+          rgba(8, 0, 40, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 20px 55px rgba(15, 23, 42, 0.98);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        right: -40px;
+        bottom: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #4be4ff33 0, transparent 60%);
+        opacity: 0.8;
+        mix-blend-mode: screen;
+      }
+
+      .hero-card-inner {
+        position: relative;
+        z-index: 1;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .hero-card-inner h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.35rem;
+        color: #e5e7eb;
+      }
+
+      .hero-card-inner ul {
+        list-style: none;
+        margin-top: 0.35rem;
+      }
+
+      .hero-card-inner li {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        margin-bottom: 0.2rem;
+      }
+
+      .bullet {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 0 11px #4be4ff99;
+      }
+
+      #events h2,
+      #memories h2,
+      #contact h2 {
+        font-family: "Orbitron", system-ui, sans-serif;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        letter-spacing: 0.22em;
+        margin-bottom: 0.3rem;
+      }
+
+      .section-lead {
+        font-size: 0.86rem;
+        color: var(--text-muted);
+        max-width: 38rem;
+        margin-bottom: 1.3rem;
+      }
+
+      /* Event cards */
+      .event-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.1rem;
+      }
+
+      .event-card {
+        position: relative;
+        border-radius: 1.1rem;
+        padding: 0.9rem 0.9rem 1rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        min-height: 180px;
+        transform-origin: center;
+      }
+
+      .event-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(255, 43, 242, 0.35), transparent 55%),
+          radial-gradient(
+            circle at 120% -10%,
+            rgba(75, 228, 255, 0.45) 0,
+            transparent 55%
+          );
+        mix-blend-mode: screen;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+
+      .event-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        height: 100%;
+      }
+
+      .event-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      .event-tag {
+        padding: 0.18rem 0.55rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.65rem;
+        background: rgba(15, 23, 42, 0.95);
+      }
+
+      .event-type {
+        padding: 0.16rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        font-size: 0.68rem;
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .event-name {
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+
+      .event-subtitle {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .event-body-text {
+        font-size: 0.8rem;
+        color: #e5e7eb;
+      }
+
+      .event-body-text span.sub {
+        display: block;
+        margin-top: 0.2rem;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+      }
+
+      .event-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.74rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+      }
+
+      .event-footer span.badge {
+        padding: 0.16rem 0.55rem;
+        border-radius: 999px;
+        border: 1px dashed rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .event-btn {
+        padding: 0.3rem 0.7rem;
+        border-radius: 999px;
+        border: none;
+        cursor: none;
+        background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+        color: #020617;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        box-shadow: 0 10px 24px #ff2bf266;
+      }
+
+      /* Memories – Pexels-style cards */
+      .swiper {
+        width: 100%;
+        padding-bottom: 1.7rem;
+      }
+
+      .memory-card {
+        border-radius: 1.2rem;
+        overflow: hidden;
+        background: rgba(8, 0, 40, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        box-shadow: 0 24px 70px rgba(15, 23, 42, 0.98);
+        display: flex;
+        flex-direction: column;
+        min-height: 240px;
+      }
+
+      .memory-media {
+        position: relative;
+        padding-top: 65%;
+        overflow: hidden;
+      }
+
+      .memory-media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.04);
+        transition: transform 0.5s ease-out;
+        filter: saturate(1.18) contrast(1.03);
+      }
+
+      .memory-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(3, 7, 18, 0.95) 0,
+          transparent 65%
+        );
+      }
+
+      .memory-top-label {
+        position: absolute;
+        left: 0.85rem;
+        top: 0.8rem;
+        padding: 0.18rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.8);
+      }
+
+      .memory-tag {
+        position: absolute;
+        left: 0.9rem;
+        bottom: 0.85rem;
+        padding: 0.22rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        background: rgba(8, 0, 40, 0.95);
+        border: 1px solid rgba(148, 163, 184, 0.85);
+      }
+
+      .memory-body {
+        padding: 0.8rem 0.9rem 0.95rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .memory-body h3 {
+        font-size: 0.9rem;
+        color: #e5e7eb;
+      }
+
+      .memory-meta {
+        margin-top: 0.25rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+      }
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        color: var(--neon-blue);
+      }
+
+      .swiper-pagination-bullet {
+        background: rgba(148, 163, 184, 0.7);
+      }
+
+      .swiper-pagination-bullet-active {
+        background: var(--neon-pink);
+      }
+
+      /* Contact */
+      .contact-strip {
+        border-radius: 1.1rem;
+        padding: 0.9rem 1rem;
+        background: rgba(8, 0, 40, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        box-shadow: 0 24px 70px rgba(15, 23, 42, 0.98);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.7rem;
+        font-size: 0.8rem;
+      }
+
+      .contact-main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        align-items: center;
+      }
+
+      .contact-label {
+        padding: 0.18rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      .contact-main a {
+        color: var(--neon-blue);
+        font-weight: 500;
+      }
+
+      .contact-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      footer {
+        padding-top: 1.5rem;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.4rem;
+      }
+
+      @media (max-width: 1020px) {
+        .event-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        #hero {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .side-nav {
+          display: none;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .event-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .nav-links {
+          display: none;
+        }
+      }
+      .memory-nexus {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        height: 700px;
+        overflow: hidden;
+        position: relative;
+        mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          black 10%,
+          black 90%,
+          transparent
+        );
+        margin-top: 2rem;
+      }
+
+      .scroll-col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .scroll-col.up {
+        animation: scroll-v-up 30s linear infinite;
+      }
+      .scroll-col.down {
+        animation: scroll-v-down 30s linear infinite;
+      }
+
+      @keyframes scroll-v-up {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-50%);
+        }
+      }
+      @keyframes scroll-v-down {
+        0% {
+          transform: translateY(-50%);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .memory-item {
+        width: 100%;
+        height: 300px;
+        border-radius: 1.2rem;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        position: relative;
+      }
+
+      .memory-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+      .memory-item:hover img {
+        transform: scale(1.1);
+      }
+      .memory-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 1rem;
+        display: flex;
+        align-items: flex-end;
+      }
+      .memory-overlay span {
+        font-family: "Orbitron";
+        font-size: 0.7rem;
+        color: var(--neon-blue);
+      }
+
+      /* --- Q&A SECTION --- */
+      .qa-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .qa-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.2rem;
+        cursor: none;
+        transition: 0.3s;
+      }
+      .qa-card:hover {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 20px rgba(75, 228, 255, 0.2);
+      }
+      .qa-question {
+        font-family: "Orbitron";
+        font-size: 0.9rem;
+        color: var(--neon-pink);
+        display: flex;
+        justify-content: space-between;
+      }
+      .qa-answer {
+        margin-top: 0.8rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        display: none;
+      }
+      .qa-card.active .qa-answer {
+        display: block;
+      }
+
+      /* Side Nav */
+      .side-nav {
+        position: fixed;
+        left: 0.9rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        z-index: 25;
+      }
+      .side-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        background: rgba(3, 7, 18, 0.92);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        writing-mode: vertical-rl;
+        font-size: 0.65rem;
+        color: var(--text-muted);
+      }
+
+      /* General Typography */
+      section h2 {
+        font-family: "Orbitron";
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        letter-spacing: 0.2em;
+        margin-bottom: 0.5rem;
+        color: var(--neon-blue);
+      }
+      .section-lead {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+      }
+
+      /* Event Grid */
+      .event-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      .event-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.2rem;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Enhanced Responsive Typography & Spacing */
+      @media (max-width: 1020px) {
+        .page {
+          padding: 1rem 0.75rem 3rem;
+        }
+        .hero-logo-text {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 1.5rem;
+        }
+        .hero-logo-text {
+          font-size: 2rem;
+          letter-spacing: 0.25em;
+        }
+        .hero-subline {
+          font-size: 0.95rem;
+        }
+        .event-grid {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1rem;
+        }
+        .hero-cta-row,
+        .nav-cta {
+          flex-direction: column;
+          width: 100%;
+        }
+        .btn {
+          justify-content: center;
+          padding: 0.6rem 1.2rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .page {
+          padding: 0.75rem 0.5rem 2.5rem;
+        }
+        .hero-logo-text {
+          font-size: 1.8rem;
+        }
+        .event-grid {
+          grid-template-columns: 1fr;
+        }
+        .event-card {
+          min-height: 200px;
+          padding: 1.2rem;
+        }
+        section {
+          padding-top: 4rem;
+        }
+        h2 {
+          font-size: 1.1rem;
+          letter-spacing: 0.15em;
+        }
+      }
+
+      /* Mobile Navigation */
+      .mobile-menu-btn {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        padding: 0.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 35;
+      }
+
+      .mobile-menu-btn span {
+        width: 24px;
+        height: 2px;
+        background: var(--neon-pink);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 8px rgba(255, 43, 242, 0.5);
+      }
+
+      .mobile-menu-btn.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+      .mobile-menu-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .mobile-menu-btn.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: flex;
+        }
+
+        header {
+          padding: 0.8rem;
+          gap: 0.5rem;
+        }
+
+        .nav-links {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background: rgba(2, 6, 23, 0.98);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+          z-index: 32;
+          animation: slideIn 0.4s ease-out;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(-100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .nav-links a {
+          font-size: 1.4rem;
+          padding: 1rem 2rem;
+          letter-spacing: 0.3em;
+        }
+
+        .side-nav {
+          display: none !important;
+        } /* Hide side nav on small screens */
+      }
+
+      @media (max-width: 480px) {
+        header {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 1rem;
+        }
+        .brand {
+          justify-content: center;
+        }
+        .nav-cta {
+          justify-content: center;
+        }
+      }
+      /* Mobile Navigation (Updated: Hide CTAs) */
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: flex;
+        }
+
+        header {
+          padding: 0.8rem;
+          gap: 0.5rem;
+        }
+
+        /* Hide Register/Call buttons on mobile */
+        .nav-cta {
+          display: none;
+        }
+
+        .nav-links {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background: rgba(2, 6, 23, 0.98);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+          z-index: 32;
+          animation: slideIn 0.4s ease-out;
+        }
+
+        /* ... rest same as before ... */
+      }
+
+      /* Brand Overflow Fix - Responsive Font & Flex */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Prevent flex child overflow */
+      }
+
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Clip long text */
+      }
+
+      .brand-text h1 {
+        font-family: Orbitron, system-ui, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: clamp(
+          0.85rem,
+          3vw,
+          0.95rem
+        ); /* Responsive: 0.85rem min, scales to viewport */
+        white-space: nowrap; /* Prevent wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Add ... if too long */
+        margin: 0;
+      }
+
+      .brand-text p {
+        font-size: clamp(0.65rem, 2.5vw, 0.7rem);
+        color: var(--text-muted);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      @media (max-width: 480px) {
+        .brand {
+          gap: 0.5rem;
+        }
+
+        .brand-logo {
+          width: 32px;
+          height: 32px;
+          font-size: 1rem;
+        }
+      }
+
+      /* Enhanced Responsive Typography (Updated) */
+      @media (max-width: 768px) {
+        .hero-logo-text {
+          font-size: clamp(1.8rem, 8vw, 2.2rem);
+          letter-spacing: 0.2em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-logo-text {
+          letter-spacing: 0.15em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="skyline"></div>
+    <div class="gradient-overlay"></div>
+
+    <!-- Custom cursor elements -->
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+
+    <div id="loader">
+      <div class="loader-ring"></div>
+      <div class="loader-text">Booting Aakruthi</div>
+    </div>
+
+    <!-- Side navigation -->
+    <nav class="side-nav">
+      <div class="side-icon" data-target="hero"><span>HOME</span></div>
+      <div class="side-icon" data-target="events"><span>EVENTS</span></div>
+      <div class="side-icon" data-target="memories"><span>MEMO</span></div>
+      <div class="side-icon" data-target="contact"><span>CONTACT</span></div>
+    </nav>
+
+    <main>
+      <div class="page">
+        <header>
+          <div class="brand">
+            <div class="brand-logo">TF</div>
+            <div class="brand-text">
+              <h1>Aakruthi 2K26</h1>
+              <p>ECE Fest · University College of Engineering, OU</p>
+            </div>
+          </div>
+          <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+          <nav class="nav-links">
+            <a class="active" data-target="hero">Home</a>
+            <a data-target="events">Events</a>
+            <a data-target="memories">Memories</a>
+            <a data-target="contact">Contact</a>
+          </nav>
+          <div class="nav-cta">
+            <a
+              href="https://forms.gle/your-google-form-id"
+              target="_blank"
+              class="btn btn-primary hover-target"
+              >Register</a
+            >
+            <a href="tel:+919812345678" class="btn hover-target">Call</a>
+          </div>
+        </header>
+
+        <!-- HERO -->
+        <section id="hero">
+          <div>
+            <p class="hero-main-title">Department of ECE · UCE OU</p>
+            <h2 class="hero-logo-text">
+              Aakruthi
+              <span style="font-size: 1.3rem">Tech &amp; Cultural Fest</span>
+            </h2>
+            <p class="hero-subline">
+              Experience a simulated paradigm of innovation with paper
+              presentations, project expos, robotics, quizzes, films, and
+              cultural nights – all in one electrifying festival.
+            </p>
+            <div class="hero-meta-row">
+              <div class="meta-pill">
+                <span class="meta-dot"></span
+                ><span>Dates: Coming Soon 2026</span>
+              </div>
+              <div class="meta-pill">
+                <span class="meta-dot"></span
+                ><span>Venue: ECE Dept, UCE OU</span>
+              </div>
+              <div class="meta-pill">
+                <span class="meta-dot"></span
+                ><span>Open to institutes across India</span>
+              </div>
+            </div>
+            <div class="hero-cta-row">
+              <a href="#events" class="btn btn-primary hover-target"
+                >Browse Events</a
+              >
+              <a
+                href="https://forms.gle/your-google-form-id"
+                target="_blank"
+                class="btn hover-target"
+                >Quick Register</a
+              >
+            </div>
+          </div>
+
+          <div class="hero-card hover-target">
+            <div class="hero-card-inner">
+              <h3>Why Aakruthi hits different?</h3>
+              <ul>
+                <li>
+                  <span class="bullet"></span
+                  ><span
+                    >Flagship technical events: Prasthuthi, Prakalpana,
+                    Pradarshana, Medha, Trishna, Yantra.</span
+                  >
+                </li>
+                <li>
+                  <span class="bullet"></span
+                  ><span
+                    >Chanakya &amp; Laghuchitra for general quizzers and
+                    storytellers.</span
+                  >
+                </li>
+                <li>
+                  <span class="bullet"></span
+                  ><span
+                    >Aahladakara &amp; Sangrahalaya to unwind, perform, and
+                    explore classic electronics.</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- EVENTS -->
+        <section id="events">
+          <h2>Events Grid</h2>
+          <p class="section-lead">
+            All events from the Aakruthi brochure are listed here with concise
+            descriptions and per‑event registration shortcuts.
+          </p>
+
+          <div class="event-grid">
+            <!-- Repeat structure for each event -->
+            <!-- Prasthuthi -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Paper Presentation</span>
+                  <span class="event-type">Team / Solo</span>
+                </div>
+                <h3 class="event-name">Prasthuthi</h3>
+                <p class="event-subtitle">
+                  Research presentations in front of academia &amp; R&amp;D
+                  experts.
+                </p>
+                <p class="event-body-text">
+                  Present structured technical papers highlighting your problem
+                  statement, methodology, and results to an expert jury.
+                  <span class="sub">
+                    Great for research‑oriented students who love surveys,
+                    experimentation, and writing publishable work.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge"
+                    >Tracks: VLSI · Communication · Embedded · AI‑IoT</span
+                  >
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Prakalpana -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Project Expo</span>
+                  <span class="event-type">Prototypes</span>
+                </div>
+                <h3 class="event-name">Prakalpana</h3>
+                <p class="event-subtitle">
+                  Stage for projects waiting to go global.
+                </p>
+                <p class="event-body-text">
+                  Showcase working hardware, software, or hybrid projects that
+                  solve real‑world problems using creative engineering.
+                  <span class="sub">
+                    Explain your design decisions, implementation journey, and
+                    how your solution scales beyond campus.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge"
+                    >Categories: Hardware · Software · Hybrid</span
+                  >
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pradarshana -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Poster Presentation</span>
+                  <span class="event-type">Visual</span>
+                </div>
+                <h3 class="event-name">Pradarshana</h3>
+                <p class="event-subtitle">
+                  Poster contest to measure the spread of ideas.
+                </p>
+                <p class="event-body-text">
+                  Translate complex concepts into crisp, visually appealing
+                  posters with diagrams, flows, and key results.
+                  <span class="sub">
+                    Ideal for early‑stage work and concept explorations that
+                    benefit from strong visual storytelling.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Judging: Idea · Design · Clarity</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Medha -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Coding Challenge</span>
+                  <span class="event-type">Timed</span>
+                </div>
+                <h3 class="event-name">Medha</h3>
+                <p class="event-subtitle">Prove your excellence in coding.</p>
+                <p class="event-body-text">
+                  Tackle problem‑solving rounds that test algorithms, debugging,
+                  and implementation efficiency.
+                  <span class="sub">
+                    Expect problems inspired by automation, data pipelines, and
+                    embedded workflows.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Languages: C · C++ · Java · Python</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Trishna -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Technical Quiz</span>
+                  <span class="event-type">Multi‑round</span>
+                </div>
+                <h3 class="event-name">Trishna</h3>
+                <p class="event-subtitle">Quizotic technocrat revelation.</p>
+                <p class="event-body-text">
+                  Dive into an enigmatic quiz featuring core ECE, tech trends,
+                  and fun engineering trivia.
+                  <span class="sub">
+                    Written, visual, and buzzer rounds reward both depth of
+                    knowledge and fast thinking.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Focus: ECE · Tech · Trivia</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Yantra -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Robotics</span>
+                  <span class="event-type">Arena</span>
+                </div>
+                <h3 class="event-name">Yantra</h3>
+                <p class="event-subtitle">Invigorating robotic battle event.</p>
+                <p class="event-body-text">
+                  Bring your bots to a high‑voltage arena filled with tracks,
+                  obstacles, and battle formats.
+                  <span class="sub">
+                    Test speed, control, robustness, and creativity against
+                    rival teams’ machines.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Modes: Race · Sumo · Custom</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Sangrahalaya -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Experience Zone</span>
+                  <span class="event-type">Gallery</span>
+                </div>
+                <h3 class="event-name">Sangrahalaya</h3>
+                <p class="event-subtitle">
+                  Stage for traditional electronics equipment.
+                </p>
+                <p class="event-body-text">
+                  Explore curated collections of classic instruments and devices
+                  that shaped the evolution of electronics.
+                  <span class="sub">
+                    Connect past technologies with today’s high‑speed systems
+                    through live demos and stories.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Theme: History of ECE</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Participate</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Laghuchitra -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Short Film</span>
+                  <span class="event-type">Creative</span>
+                </div>
+                <h3 class="event-name">Laghuchitra</h3>
+                <p class="event-subtitle">Short film making contest.</p>
+                <p class="event-body-text">
+                  Script, shoot, and edit short films competing for Aakruthi’s
+                  own “Oscars”.
+                  <span class="sub">
+                    Themes from campus and tech futures to social impact;
+                    originality and storytelling drive scoring.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Judging: Story · Direction · Edit</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Chanakya -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">General Quiz</span>
+                  <span class="event-type">Open</span>
+                </div>
+                <h3 class="event-name">Chanakya</h3>
+                <p class="event-subtitle">
+                  Captivating journey through general quiz.
+                </p>
+                <p class="event-body-text">
+                  Answer wide‑angle questions spanning history, science, pop
+                  culture, and current affairs.
+                  <span class="sub">
+                    Designed for teams from all branches that enjoy strategy,
+                    lateral thinking, and trivia.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Rounds: Written · Visual · Buzzer</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Aahladakara -->
+            <article class="event-card hover-tilt">
+              <div class="event-inner">
+                <div class="event-top-row">
+                  <span class="event-tag">Cultural</span>
+                  <span class="event-type">Stage</span>
+                </div>
+                <h3 class="event-name">Aahladakara</h3>
+                <p class="event-subtitle">
+                  Platform to unleash your inner spark.
+                </p>
+                <p class="event-body-text">
+                  Light up the evenings with music, dance, stand‑up, and
+                  performances that bring the fest alive.
+                  <span class="sub">
+                    Open to solo and crew acts focused on originality, energy,
+                    and crowd connect.
+                  </span>
+                </p>
+                <div class="event-footer">
+                  <span class="badge">Acts: Dance · Bands · Vocals · More</span>
+                  <a
+                    href="https://forms.gle/your-google-form-id"
+                    target="_blank"
+                    class="event-btn hover-target"
+                  >
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- MEMORIES -->
+        <section id="memories">
+          <h2>// ARCHIVE_RECALL</h2>
+          <p class="section-lead">
+            A seamless stream of visual logs from previous festival cycles.
+          </p>
+
+          <div class="memory-nexus">
+            <div class="scroll-col up">
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+                <div class="memory-overlay">
+                  <!-- <span>CYCLE_2023 // EXPO</span> -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://lh3.googleusercontent.com/rd-d/ALs6j_HbGlLARdp6MVzqtyWsVc_JSIe8jaxbdB901gf5QzYZP5j59IujQj-Zh5bxTk3NImBpfvboTGTbrqopf5r9p9uR_NPceBcHby03kw5MdEwsmYvcYjP6KPFbYL8r4C6AeDlfLQeIYE3vW3Biw3TSv_PWmTxft6YKoaPN-Ymhm4uHa8ZQFVy7AODUdQIiDG21fZdJgZ153fwR-gYGglL_0_ykMStZcfSe-U0TTszrBpQ_SNcXRbsxuyUu43yK6ALRCSV-6csim7axC3KVD50Mqk4p1qWGUpPVKjZSZ7QXDF8NyQw0NTBmJ4fQkWI29lCLZ8E7tPsFRm3fH7TXHII3WCmmukQ-Eya0FZQ6caFC2s0fV23-AsFwKB6bZpM_gQK2QovLS-ACNFmBPaqMkVGJv7nPgGCGuhyudV__vkF3rlwWViQ7VbPKgos6UpKPsIc0cDyKsBsali5FF1gxfu66AgNbE2_pfJXok9T_B7uPC-t9WN417Hji2jpEJ420XUgE-9Eo6xRM1aUTWXMzAIBhutYXi8dFixpVU9swiU2UMJTd5fB864vHAGXnPFkx-XucPmI_CRp-1FX7Z21PxVAHKnWhLr_6abUgWTEp2hhLqG6z3oN2NLLS6y6a-qh0igCJLaYjyhlnQ-BhbTaira1UUOKvab2qzehEQ-Kp_Q8XSVAGW1gflahc6_F32Ho85I8mFvfqwsoCIO2-OF4mSxTNqhaZ2Wh-c5rBWR5q-s_RTVULzcIn0P-KM-RuynpDAmAPgpIE45IMClb_HY5h972bQIL0lPiJjHnKQOG_SnfaDKrtGy39fTfUk9DYkXFjgn7ChoUDqs9n3Qed-DgnX7GhGnvwlS1X4FyB5N39i4hPve69NevD7u9OH0baGALyv03nHsRVqQaCzReGvAe3hlSRe3U5TGDw2AAj7DJNEyrNoePn079DruHT7SnhB43HNNsnGYoPe52AdIEJcrl94o2nWnZZm5s1enx-G5FakNB_jtLhm6utsv4jRAKNLMjRWUYyRu4FlKZ2RqpRK7UQ554RRIdqaabF6SQvj2zUEiiUcbzJ=w1920-h927?auditContext=prefetch"
+                />
+                <div class="memory-overlay">
+                  <!-- <!-- <span></span> -->
+                  -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+            </div>
+            <div class="scroll-col down">
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+                <div class="memory-overlay">
+                  <!-- <!-- <span>CYCLE_2023 // ROBOTICS</span> -->
+                  -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+                <div class="memory-overlay">
+                  <!-- <!-- <span>CYCLE_2021 // NIGHT</span> -->
+                  -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+            </div>
+            <div class="scroll-col up">
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+                <div class="memory-overlay">
+                  <!-- <!-- <span>CYCLE_2023 // CODE</span> -->
+                  -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+                <div class="memory-overlay">
+                  <!-- <!-- <span>CYCLE_2022 // CROWD</span> -->
+                  -->
+                </div>
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+              <div class="memory-item">
+                <img
+                  src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+          <h2>Contact &amp; Helpdesk</h2>
+          <p class="section-lead">
+            For registration issues, event‑specific doubts, or hospitality
+            queries, reach out to the student co‑ordinators.
+          </p>
+
+          <div class="contact-strip hover-target">
+            <div class="contact-main">
+              <span class="contact-label">Student Co‑ordinators</span>
+              <span>Call: <a href="tel:+919812345678">+91‑98123‑45678</a></span>
+              <span>·</span>
+              <span
+                >Email:
+                <a href="mailto:aakruthi.ece@uceou.in"
+                  >aakruthi.ece@uceou.in</a
+                ></span
+              >
+            </div>
+            <div class="contact-actions">
+              <a
+                href="https://forms.gle/your-google-form-id"
+                target="_blank"
+                class="btn btn-primary hover-target"
+                >Register via Google Form</a
+              >
+              <a href="tel:+919812345678" class="btn hover-target"
+                >Tap to Call</a
+              >
+              <a href="mailto:aakruthi.ece@uceou.in" class="btn hover-target"
+                >Write to Us</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span
+            >© Aakruthi 2K26 · Department of ECE · University College of
+            Engineering, OU</span
+          >
+          <span>Neon SPA theme crafted for events &amp; memories.</span>
+        </footer>
+      </div>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <!-- Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+      // Smooth scroll helper
+      function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // Loader + intro animation
+      window.addEventListener("load", function () {
+        const tl = gsap.timeline();
+
+        tl.to("#loader", {
+          delay: 0.7,
+          duration: 0.6,
+          opacity: 0,
+          ease: "power2.inOut",
+          onComplete: () => {
+            document.getElementById("loader").style.display = "none";
+          },
+        });
+
+        tl.fromTo(
+          "main",
+          { opacity: 0, y: 28 },
+          {
+            duration: 0.9,
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+          },
+        );
+
+        tl.from(
+          ".event-card",
+          {
+            duration: 0.8,
+            opacity: 0,
+            y: 22,
+            stagger: 0.06,
+            ease: "power2.out",
+          },
+          "-=0.4",
+        );
+      });
+
+      // SPA navigation (top + side)
+      document.querySelectorAll("[data-target]").forEach((link) => {
+        link.addEventListener("click", () => {
+          const id = link.getAttribute("data-target");
+          scrollToSection(id);
+          document
+            .querySelectorAll(".nav-links a")
+            .forEach((a) => a.classList.remove("active"));
+          const navLink = document.querySelector(
+            '.nav-links a[data-target="' + id + '"]',
+          );
+          if (navLink) navLink.classList.add("active");
+        });
+      });
+
+      // Swiper memories slider
+
+      // Pexels-style hover zoom on memory images
+      document.querySelectorAll(".memory-card").forEach((card) => {
+        const img = card.querySelector("img");
+        card.addEventListener("mouseenter", () => {
+          if (img) img.style.transform = "scale(1.1)";
+        });
+        card.addEventListener("mouseleave", () => {
+          if (img) img.style.transform = "scale(1.04)";
+        });
+      });
+
+      // Custom cursor with GSAP (dot + ring)
+      const cursorDot = document.querySelector(".cursor-dot");
+      const cursorRing = document.querySelector(".cursor-ring");
+
+      gsap.set([cursorDot, cursorRing], { xPercent: -50, yPercent: -50 });
+
+      window.addEventListener("mousemove", (e) => {
+        gsap.to(cursorDot, {
+          duration: 0.12,
+          x: e.clientX,
+          y: e.clientY,
+          ease: "power3.out",
+        });
+        gsap.to(cursorRing, {
+          duration: 0.4,
+          x: e.clientX,
+          y: e.clientY,
+          ease: "power3.out",
+        });
+      });
+
+      // Enlarge ring when hovering interactive elements
+      const hoverTargets = document.querySelectorAll(
+        ".hover-target, .event-btn, .side-icon, .nav-links a",
+      );
+
+      hoverTargets.forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursorRing.classList.add("active");
+        });
+        el.addEventListener("mouseleave", () => {
+          cursorRing.classList.remove("active");
+        });
+      });
+
+      // GSAP 3D tilt effect on event cards
+      document.querySelectorAll(".hover-tilt").forEach((card) => {
+        const strength = 15;
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const relX = e.clientX - rect.left;
+          const relY = e.clientY - rect.top;
+          const rotateY = (relX / rect.width - 0.5) * strength;
+          const rotateX = (relY / rect.height - 0.5) * -strength;
+
+          gsap.to(card, {
+            duration: 0.3,
+            rotateX,
+            rotateY,
+            y: -6,
+            boxShadow: "0 26px 70px rgba(0,0,0,0.9)",
+            ease: "power2.out",
+            transformPerspective: 800,
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(card, {
+            duration: 0.35,
+            rotateX: 0,
+            rotateY: 0,
+            y: 0,
+            boxShadow: "0 22px 60px rgba(15,23,42,0.95)",
+            ease: "power2.out",
+          });
+        });
+      });
+      // Mobile menu toggle
+      const mobileBtn = document.querySelector(".mobile-menu-btn");
+      const navLinks = document.querySelector(".nav-links");
+
+      mobileBtn.addEventListener("click", () => {
+        mobileBtn.classList.toggle("active");
+        navLinks.classList.toggle("active");
+
+        // Prevent body scroll when menu open
+        document.body.style.overflow = navLinks.classList.contains("active")
+          ? "hidden"
+          : "";
+      });
+
+      // Close menu on link click
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileBtn.classList.remove("active");
+          navLinks.classList.remove("active");
+          document.body.style.overflow = "";
+        });
+      });
+
+      // Close on outside click (optional enhancement)
+      document.addEventListener("click", (e) => {
+        if (!header.contains(e.target)) {
+          mobileBtn.classList.remove("active");
+          navLinks.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+  </body>
+</html>
