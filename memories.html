@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aakruthi 2K26 | Memories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .memory-wall { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8rem; overflow: hidden; height: 680px; }
+    .mem-col { display: flex; flex-direction: column; gap: 0.8rem; }
+    .mem-col.up { animation: scroll-up 28s linear infinite; }
+    .mem-col.down { animation: scroll-down 34s linear infinite; }
+    .mem-col.up2 { animation: scroll-up 22s linear infinite; }
+    @keyframes scroll-up { 0%{transform:translateY(0)} 100%{transform:translateY(-50%)} }
+    @keyframes scroll-down { 0%{transform:translateY(-50%)} 100%{transform:translateY(0)} }
+    .mem-item { position:relative; overflow:hidden; border:1px solid var(--border); flex-shrink:0; aspect-ratio:4/3; }
+    .mem-item img { width:100%;height:100%;object-fit:cover;filter:saturate(0.5) brightness(0.7);transition:filter 0.5s; }
+    .mem-item:hover img { filter:saturate(1.1) brightness(0.9); }
+    .mem-item::after { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,43,242,0.1),rgba(0,245,255,0.1));opacity:0;transition:opacity 0.3s; }
+    .mem-item:hover::after { opacity:1; }
+    .mem-wall-wrap { position:relative; }
+    .mem-wall-wrap::before, .mem-wall-wrap::after { content:'';position:absolute;left:0;right:0;height:120px;z-index:2;pointer-events:none; }
+    .mem-wall-wrap::before { top:0;background:linear-gradient(180deg,var(--bg),transparent); }
+    .mem-wall-wrap::after { bottom:0;background:linear-gradient(0deg,var(--bg),transparent); }
+    @media(max-width:768px){.memory-wall{grid-template-columns:1fr 1fr;height:500px;}.mem-col:last-child{display:none;}}
+    @media(max-width:480px){.memory-wall{grid-template-columns:1fr;height:400px;}.mem-col:nth-child(2){display:none;}}
+  </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="loader">
+  <div class="loader-grid">
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
+  </div>
+  <div class="loader-bar"></div>
+  <div class="loader-text">ACCESSING MEMORY ARCHIVE...</div>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo"><span>AK</span></div>
+    <div class="nav-brand-text">
+      <span class="nav-title">AAKRUTHI</span>
+      <span class="nav-sub">ECE FEST · UCEOU · 2K26</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="memories.html" class="active">Memories</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="https://forms.gle/your-google-form-id" target="_blank" class="nav-register">⚡ Register</a>
+  <div class="hamburger" id="hamburger"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link">Home</a>
+  <a href="events.html" class="mobile-nav-link">Events</a>
+  <a href="memories.html" class="mobile-nav-link">Memories</a>
+  <a href="contact.html" class="mobile-nav-link">Contact</a>
+  <a href="https://forms.gle/your-google-form-id" target="_blank" class="mobile-menu-register">⚡ Register Now</a>
+  <div class="mobile-glitch">AAKRUTHI 2K26 · ECE · UCEOU · HYD</div>
+</div>
+
+<main>
+  <div class="container" style="padding-top:5rem;">
+    <div class="section-header reveal">
+      <span class="section-tag">&gt; archive_recall.db</span>
+      <h2 class="section-title">Memory <span>Archive</span></h2>
+      <p class="section-lead">Visual logs from previous Aakruthi cycles — a testament to the energy, creativity, and community that defines our fest.</p>
+    </div>
+
+    <div class="mem-wall-wrap reveal">
+      <div class="memory-wall">
+        <!-- Column 1 (scroll up) -->
+        <div class="mem-col up">
+          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <!-- Duplicated for seamless loop -->
+          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+        </div>
+        <!-- Column 2 (scroll down) -->
+        <div class="mem-col down">
+          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <!-- Duplicated -->
+          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+        </div>
+        <!-- Column 3 (scroll up faster) -->
+        <div class="mem-col up2">
+          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <!-- Duplicated -->
+          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note about photos -->
+    <div style="text-align:center;padding:3rem 0;border-top:1px solid var(--border);margin-top:2rem;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.4em;color:var(--text-muted);margin-bottom:1rem;">SUBMIT YOUR PHOTOS</div>
+      <p style="font-size:0.9rem;color:var(--text-muted);max-width:30rem;margin:0 auto 1.5rem;">Attended a past Aakruthi? Share your photos with us and get featured on this page!</p>
+      <a href="mailto:aakruthi.ece@uceou.in" class="btn-cyber btn-outline">📷 Submit Photos</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">AAKRUTHI 2K26</div>
+        <div class="footer-sub">ECE DEPT · UCEOU · HYDERABAD</div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="memories.html">Memories</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 AAKRUTHI — ALL SYSTEMS NOMINAL</div>
+    </div>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
