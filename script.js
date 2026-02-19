@@ -46,7 +46,7 @@
     }
     reset(init = false) {
       this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : (Math.random() < 0.5 ? -10 : H + 10);
+      this.y = init ? Math.random() * H : Math.random() < 0.5 ? -10 : H + 10;
       this.baseVX = (Math.random() - 0.5) * 0.5;
       this.baseVY = (Math.random() - 0.5) * 0.5;
       this.vx = this.baseVX;
@@ -68,7 +68,10 @@
         this.vy -= (dy / dist) * force * 2.5;
       } else if (dist < CURSOR_ATTRACT_DIST) {
         // Gently attract toward cursor
-        const force = ((dist - CURSOR_REPEL_DIST) / (CURSOR_ATTRACT_DIST - CURSOR_REPEL_DIST)) * 0.04;
+        const force =
+          ((dist - CURSOR_REPEL_DIST) /
+            (CURSOR_ATTRACT_DIST - CURSOR_REPEL_DIST)) *
+          0.04;
         this.vx += (dx / dist) * force;
         this.vy += (dy / dist) * force;
       }
@@ -107,7 +110,10 @@
     }
   }
 
-  const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+  const particles = Array.from(
+    { length: PARTICLE_COUNT },
+    () => new Particle(),
+  );
 
   // Spawn a burst near cursor on click
   document.addEventListener("click", (e) => {
@@ -249,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ─── COUNTDOWN ────────────────────────────────
-  const targetDate = new Date("2026-03-20T09:00:00").getTime();
+  const targetDate = new Date("2026-03-12T09:00:00").getTime();
   const daysEl = document.getElementById("cd-days");
   const hoursEl = document.getElementById("cd-hours");
   const minEl = document.getElementById("cd-min");
