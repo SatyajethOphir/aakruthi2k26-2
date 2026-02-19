@@ -1,5 +1,167 @@
 // script.js — Aakruthi 2K26 Cyberpunk Website
 
+// ─── PARTICLES.JS (Canvas-based, cursor-reactive) ──────────────────────────
+(function initParticles() {
+  const canvas = document.createElement("canvas");
+  canvas.id = "particleCanvas";
+  Object.assign(canvas.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none",
+    zIndex: "0",
+  });
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext("2d");
+
+  let W = (canvas.width = window.innerWidth);
+  let H = (canvas.height = window.innerHeight);
+
+  window.addEventListener("resize", () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  // Cursor position
+  const mouse = { x: W / 2, y: H / 2 };
+  document.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  // Cyberpunk colour palette
+  const COLORS = ["#00f0ff", "#ff2d78", "#7b2fff", "#00ff9d", "#ffffff"];
+
+  const PARTICLE_COUNT = 110;
+  const CONNECTION_DIST = 130;
+  const CURSOR_REPEL_DIST = 100;
+  const CURSOR_ATTRACT_DIST = 200;
+
+  class Particle {
+    constructor() {
+      this.reset(true);
+    }
+    reset(init = false) {
+      this.x = Math.random() * W;
+      this.y = init ? Math.random() * H : (Math.random() < 0.5 ? -10 : H + 10);
+      this.baseVX = (Math.random() - 0.5) * 0.5;
+      this.baseVY = (Math.random() - 0.5) * 0.5;
+      this.vx = this.baseVX;
+      this.vy = this.baseVY;
+      this.r = Math.random() * 1.8 + 0.6;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.alpha = Math.random() * 0.5 + 0.3;
+      this.life = 0;
+    }
+    update() {
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      if (dist < CURSOR_REPEL_DIST) {
+        // Repel from cursor
+        const force = (CURSOR_REPEL_DIST - dist) / CURSOR_REPEL_DIST;
+        this.vx -= (dx / dist) * force * 2.5;
+        this.vy -= (dy / dist) * force * 2.5;
+      } else if (dist < CURSOR_ATTRACT_DIST) {
+        // Gently attract toward cursor
+        const force = ((dist - CURSOR_REPEL_DIST) / (CURSOR_ATTRACT_DIST - CURSOR_REPEL_DIST)) * 0.04;
+        this.vx += (dx / dist) * force;
+        this.vy += (dy / dist) * force;
+      }
+
+      // Damping back toward base velocity
+      this.vx += (this.baseVX - this.vx) * 0.04;
+      this.vy += (this.baseVY - this.vy) * 0.04;
+
+      // Clamp speed
+      const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+      if (speed > 3) {
+        this.vx = (this.vx / speed) * 3;
+        this.vy = (this.vy / speed) * 3;
+      }
+
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life++;
+
+      // Wrap around edges
+      if (this.x < -20) this.x = W + 20;
+      if (this.x > W + 20) this.x = -20;
+      if (this.y < -20) this.y = H + 20;
+      if (this.y > H + 20) this.y = -20;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+
+  // Spawn a burst near cursor on click
+  document.addEventListener("click", (e) => {
+    for (let i = 0; i < 8; i++) {
+      const p = new Particle();
+      p.x = e.clientX + (Math.random() - 0.5) * 30;
+      p.y = e.clientY + (Math.random() - 0.5) * 30;
+      p.vx = (Math.random() - 0.5) * 4;
+      p.vy = (Math.random() - 0.5) * 4;
+      particles.push(p);
+      // Keep count stable
+      if (particles.length > PARTICLE_COUNT + 30) particles.splice(0, 1);
+    }
+  });
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < CONNECTION_DIST) {
+          const alpha = (1 - d / CONNECTION_DIST) * 0.25;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.strokeStyle = a.color;
+          ctx.shadowColor = a.color;
+          ctx.shadowBlur = 4;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    drawConnections();
+    particles.forEach((p) => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   // ─── LOADER ───────────────────────────────────
   const loader = document.getElementById("loader");
