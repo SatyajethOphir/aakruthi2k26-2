@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aakruthi 2K26 | ECE Fest — UCEOU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div id="loader">
+      <div class="loader-grid">
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+      </div>
+      <div class="loader-bar"></div>
+      <div class="loader-text">INITIALIZING AAKRUTHI 2K26...</div>
+    </div>
+
+    <!-- ─── NAVBAR ──────────────────────────────────── -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">
+          <img src="./assets/logo.png" alt="Aakruthi Logo" class="nav-logo-brand-img" />
+        </div>
+        <div class="nav-brand-text">
+          <span class="nav-title">AAKRUTHI</span>
+          <span class="nav-sub">ECE FEST · UCEOU · 2K26</span>
+        </div>
+      </a>
+
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="sponsors.html">Sponsors</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a href="events.html" target="_blank" class="nav-register">⚡ Register</a>
+
+      <div class="hamburger" id="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="events.html" class="mobile-nav-link">Events</a>
+      <a href="memories.html" class="mobile-nav-link">Memories</a>
+      <a href="sponsors.html" class="mobile-nav-link">Sponsors</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+      <a href="events.html" target="_blank" class="mobile-menu-register"
+        >⚡ Register Now</a>
+      <div class="mobile-glitch">AAKRUTHI 2K26 · ECE · UCEOU · HYD</div>
+    </div>
+
+    <main>
+      <!-- ─── HERO ─────────────────────────────────── -->
+      <section id="hero">
+        <div class="hero-left">
+          <div class="hero-logos-strip reveal">
+            <img
+              src="assets/OU_logo.png"
+              alt="Osmania University"
+              class="hero-logo-img"
+            />
+            <div class="hero-logo-sep">×</div>
+            <img src="uce_logo1.png" alt="UCE Osmania" class="hero-logo-img" />
+            <div class="hero-strip-label">
+              <span class="lbl-tag">Dept. of</span>
+              <span class="lbl-dept">ECE</span>
+              <span class="lbl-year">Est. 1959</span>
+            </div>
+          </div>
+
+          <div class="hero-badge reveal">
+            <span class="badge-dot"></span>
+            REGISTRATIONS OPEN — MARCH 2026
+          </div>
+
+          <h1 class="hero-title reveal">
+            <span class="line1">AAKRUTHI</span>
+            <span class="line2 glitch" data-text="2K26">2K26</span>
+            <span class="line3">University College of Engineering, OU</span>
+          </h1>
+
+          <p class="hero-desc reveal">
+            The flagship annual techno-cultural festival of the Department of
+            Electronics &amp; Communication Engineering. Three days. Infinite
+            possibilities. One epic showdown.
+          </p>
+
+          <div class="hero-meta reveal">
+            <div class="hero-chip">
+              <span class="chip-icon">📅</span> March 20–22, 2026
+            </div>
+            <div class="hero-chip">
+              <span class="chip-icon">📍</span> UCEOU, Hyderabad
+            </div>
+            <div class="hero-chip">
+              <span class="chip-icon">🏆</span> ₹2L+ in Prizes
+            </div>
+            <div class="hero-chip">
+              <span class="chip-icon">👥</span> 2000+ Participants
+            </div>
+          </div>
+
+          <div class="hero-actions reveal">
+            <a href="#events-preview" class="btn-cyber btn-primary"
+              >⚡ Explore</a
+            >
+            <a href="events.html" class="btn-cyber btn-outline"
+              >View Events →</a
+            >
+          </div>
+        </div>
+
+        <div class="hero-right reveal">
+          <div class="countdown-box">
+            <div class="countdown-label">&gt; TIME UNTIL IGNITION</div>
+            <div class="countdown-units">
+              <div class="cd-unit">
+                <div class="cd-num" id="cd-days">--</div>
+                <div class="cd-lbl">DAYS</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cd-hours">--</div>
+                <div class="cd-lbl">HRS</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cd-min">--</div>
+                <div class="cd-lbl">MIN</div>
+              </div>
+              <div class="cd-unit">
+                <div class="cd-num" id="cd-sec">--</div>
+                <div class="cd-lbl">SEC</div>
+              </div>
+            </div>
+          </div>
+          <div class="venue-box">
+           <a href="https://maps.app.goo.gl/J5UeoELMXGhg1T5v6"> <div class="venue-tag">&gt; VENUE_COORDINATES</div></a>
+            <div class="venue-name">University College of Engineering, OU</div>
+            <div class="venue-sub">Amberpet, Hyderabad, Telangana — 500007</div>
+            <div
+              style="
+                margin-top: 1rem;
+                display: flex;
+                gap: 0.8rem;
+                flex-wrap: wrap;
+              "
+            >
+              <a
+                href="tel:+919177573069"
+                class="btn-cyber btn-outline"
+                style="font-size: 0.6rem; padding: 0.5rem 1rem"
+                >📞 Call</a
+              >
+              <a
+                href="mailto:aakruthi2k26@osmania.ac.in"
+                class="btn-cyber btn-outline"
+                style="font-size: 0.6rem; padding: 0.5rem 1rem"
+                >📧 Email</a
+              >
+            </div>
+          </div>
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem"
+          >
+            <div class="venue-box" style="text-align: center">
+              <div
+                style="
+                  font-family: &quot;Orbitron&quot;, sans-serif;
+                  font-size: 2rem;
+                  font-weight: 900;
+                  color: var(--neon-pink);
+                  text-shadow: var(--glow-pink);
+                "
+              >
+                10+
+              </div>
+              <div
+                style="
+                  font-family: &quot;Share Tech Mono&quot;, monospace;
+                  font-size: 0.6rem;
+                  letter-spacing: 0.3em;
+                  color: var(--text-muted);
+                  margin-top: 0.3rem;
+                "
+              >
+                EVENTS
+              </div>
+            </div>
+            <div class="venue-box" style="text-align: center">
+              <div
+                style="
+                  font-family: &quot;Orbitron&quot;, sans-serif;
+                  font-size: 2rem;
+                  font-weight: 900;
+                  color: var(--neon-blue);
+                  text-shadow: var(--glow-blue);
+                "
+              >
+                2
+              </div>
+              <div
+                style="
+                  font-family: &quot;Share Tech Mono&quot;, monospace;
+                  font-size: 0.6rem;
+                  letter-spacing: 0.3em;
+                  color: var(--text-muted);
+                  margin-top: 0.3rem;
+                "
+              >
+                DAYS
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── FEATURED EVENTS ───────────────────────── -->
+      <section id="events-preview">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="section-tag">&gt; featured_events.exe</span>
+            <h2 class="section-title">
+              Compete. <span>Create.</span> Conquer.
+            </h2>
+            <p class="section-lead">
+              From hardcore technical challenges to cultural extravaganzas —
+              there's a stage for every talent.
+            </p>
+          </div>
+          <div class="events-grid">
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Prasthuthi"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-tech">Technical</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Prasthuthi</div>
+                <div class="event-desc">
+                  Share your research with academia and R&D experts. The paper
+                  presentation stage for the innovators of tomorrow.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">👥</span> Team of 1–2
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">🏆</span> Prizes Await
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">Register →</a>
+              </div>
+            </div>
+
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Medha"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-tech">Coding</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Medha</div>
+                <div class="event-desc">
+                  Prove your coding excellence. This is the perfect stage for
+                  contestants to showcase their programming prowess.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">👤</span> Individual / Team
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">🏆</span> Prizes Await
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">Register →</a>
+              </div>
+            </div>
+
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Yantra"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-tech">Robotics</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Yantra</div>
+                <div class="event-desc">
+                  The ultimate robo battleground — engineer your bot, enter the
+                  arena, and wage war of mean machines.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">👥</span> Team of 2–4
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">🏆</span> Prizes Await
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">Register →</a>
+              </div>
+            </div>
+
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Trishna"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-tech">Technical</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Trishna</div>
+                <div class="event-desc">
+                  Tickle your quizzotic bond — an enigmatic technical quiz
+                  challenge of a lifetime. So be there.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">👥</span> Team of 2
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">🏆</span> Prizes Await
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">Register →</a>
+              </div>
+            </div>
+
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Pradarshana"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-creative">Creative</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Pradarshana</div>
+                <div class="event-desc">
+                  A poster presentation contest measuring the convergence and
+                  spread of ideas through impactful visual design.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">👤</span> Individual
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">🏆</span> Prizes Await
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">Register →</a>
+              </div>
+            </div>
+
+            <div class="event-card reveal">
+              <div class="event-img-wrap">
+                <img
+                  class="event-img"
+                  src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Aahladakara"
+                />
+                <div class="event-img-overlay"></div>
+                <div class="event-category cat-cultural">Cultural</div>
+              </div>
+              <div class="event-body">
+                <div class="event-name">Aahladakara</div>
+                <div class="event-desc">
+                  Tired of being a technical geek all day? This is your platform
+                  to unleash your inner spark on the neon stage.
+                </div>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <span class="icon">🎉</span> Open to All
+                  </div>
+                  <div class="event-meta-item">
+                    <span class="icon">✨</span> Free Entry
+                  </div>
+                </div>
+                <a href="events.html" class="event-register">See More →</a>
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 3rem">
+            <a href="events.html" class="btn-cyber btn-outline"
+              >View All Events →</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════
+       ECE DEPARTMENT LEGACY SECTION
+  ══════════════════════════════════════════════ -->
+      <section id="legacy">
+        <div class="container">
+          <!-- Section header -->
+          <div class="section-header reveal">
+            <span class="section-tag">&gt; ece_department.sys</span>
+            <h2 class="section-title">
+              65+ Years of <span>ECE Excellence</span>
+            </h2>
+            <p class="section-lead">
+              From two faculty members in 1959 to a powerhouse of research,
+              innovation and industry collaboration — the Department of
+              Electronics &amp; Communication Engineering at UCE, Osmania
+              University has been shaping engineers for over six decades.
+            </p>
+          </div>
+
+          <!-- Banner: ECE intro -->
+          <div class="legacy-banner reveal">
+            <div class="legacy-logos-col">
+              <div class="leg-logo-wrap">
+                <img
+                  src="OU_Logo.png"
+                  alt="Osmania University"
+                  class="leg-logo-img"
+                />
+                <div class="leg-logo-label">Osmania<br />University</div>
+              </div>
+              <div class="leg-logo-connector"></div>
+              <div class="leg-logo-wrap">
+                <img
+                  src="uce_logo.png"
+                  alt="UCE Osmania"
+                  class="leg-logo-img"
+                />
+                <div class="leg-logo-label">Dept. of<br />ECE</div>
+              </div>
+            </div>
+
+            <div class="legacy-intro">
+              <span class="legacy-intro-tag">&gt; dept_origin.txt</span>
+              <h3 class="legacy-intro-title">
+                Founded by a <span class="c-blue">Visionary Professor.</span
+                ><br />
+                Built for <span class="c-pink">Generations of Engineers.</span>
+              </h3>
+              <p class="legacy-intro-body">
+                The Department of Electronics &amp; Communication Engineering
+                was established in <strong>1959</strong> at the University
+                College of Engineering, Osmania University — with just two
+                faculty members and an unshakeable vision. It bears the
+                indelible stamp of its founder and first Head of Department,
+                <strong>Late Prof. K. Krishnan Nair</strong>, who exhorted the
+                ECE Department to become a byname for
+                <em>Excellence, Creativity and Enterprise</em>. In his memory,
+                the Commemoration Committee organises an annual lecture by a
+                distinguished industry professional. Over six decades, the
+                department has grown into a thriving hub of 16 teaching faculty,
+                500+ students, and specialisations spanning Digital Systems,
+                Signal Processing, VLSI, Microwaves, Embedded Systems, and
+                Communications Engineering.
+              </p>
+            </div>
+
+            <div class="legacy-banner-bg-text" aria-hidden="true">ECE</div>
+          </div>
+
+          <!-- Stats bar -->
+          <div class="legacy-stats reveal">
+            <div class="legacy-stat">
+              <div class="stat-num">1959</div>
+              <div class="stat-lbl">ECE Dept. Founded</div>
+            </div>
+            <div class="legacy-stat">
+              <div class="stat-num">500+</div>
+              <div class="stat-lbl">UG & PG Students</div>
+            </div>
+            <div class="legacy-stat">
+              <div class="stat-num">16</div>
+              <div class="stat-lbl">Teaching Faculty</div>
+            </div>
+            <div class="legacy-stat">
+              <div class="stat-num">₹40 Cr</div>
+              <div class="stat-lbl">TEQIP Grants</div>
+            </div>
+            <div class="legacy-stat">
+              <div class="stat-num">ISRO</div>
+              <div class="stat-lbl">NavIC Collaboration</div>
+            </div>
+          </div>
+
+          <!-- ECE Timeline -->
+          <div class="legacy-two-col">
+            <div>
+              <div class="block-header reveal">
+                <span class="block-tag blue">&gt; ece_history.log</span>
+                <div class="block-title">The ECE Journey</div>
+              </div>
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot d1"></div>
+                  <div class="tl-year y1">1959</div>
+                  <div class="tl-title">Department Founded</div>
+                  <div class="tl-desc">
+                    The Department of Electronics &amp; Communication
+                    Engineering is established at UCE, OU under the founding
+                    leadership of Late Prof. K. Krishnan Nair — beginning with
+                    just 2 faculty members and a mission to build India's next
+                    generation of electronics engineers.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d2"></div>
+                  <div class="tl-year y2">1960s–80s</div>
+                  <div class="tl-title">Growing Foundations</div>
+                  <div class="tl-desc">
+                    The department expands steadily — adding faculty, labs, and
+                    PG programmes across core ECE disciplines including Digital
+                    Systems, Control Systems, Microwaves, Signal Processing, and
+                    Microprocessor Applications.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d3"></div>
+                  <div class="tl-year y3">1994</div>
+                  <div class="tl-title">UCE Granted Autonomy</div>
+                  <div class="tl-desc">
+                    UCE attains autonomous status, enabling the ECE department
+                    to independently design modern curricula, introduce emerging
+                    specialisations, and forge industry partnerships —
+                    dramatically accelerating its evolution.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d4"></div>
+                  <div class="tl-year y4">2001 – 2015</div>
+                  <div class="tl-title">TEQIP Era & Infrastructure Boost</div>
+                  <div class="tl-desc">
+                    Successful execution of TEQIP I, II &amp; III projects from
+                    the Government of India — channeling ₹40 Crores into modern
+                    ECE labs, faculty development, research infrastructure, and
+                    student welfare across the campus.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d5"></div>
+                  <div class="tl-year y5">2017</div>
+                  <div class="tl-title">ISRO NavIC GPS Lab Inaugurated</div>
+                  <div class="tl-desc">
+                    Under the leadership of Dr. P. Naveen Kumar (HoD), the
+                    "Advanced GNSS Research Laboratory" is established via MoU
+                    with ISRO's Space Applications Centre. Inaugurated on 27
+                    April 2017 by ISRO Chairman Shri A.S. Kiran Kumar — placing
+                    ECE, UCEOU at the frontier of India's space navigation
+                    program.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d1"></div>
+                  <div class="tl-year y1">Present</div>
+                  <div class="tl-title">Centres of Excellence & Beyond</div>
+                  <div class="tl-desc">
+                    Active Centres of Excellence in AI/ML, Cyber Security, and
+                    Additive Manufacturing. Doctorates across the faculty.
+                    Industry MoUs, global collaborations, and alumni placed at
+                    top global tech firms — carrying forward Prof. Nair's vision
+                    of Excellence, Creativity, and Enterprise.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ECE Specialisations & PG Programmes -->
+            <div>
+              <div class="block-header reveal">
+                <span class="block-tag pink">&gt; ece_programmes.db</span>
+                <div class="block-title">Programmes &amp; Specialisations</div>
+              </div>
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot d2"></div>
+                  <div class="tl-year y2">B.E.</div>
+                  <div class="tl-title">
+                    Electronics &amp; Communication Engineering
+                  </div>
+                  <div class="tl-desc">
+                    Four-year undergraduate programme covering the full spectrum
+                    of ECE — from circuits and signals to embedded systems,
+                    communications, and IoT. Intake of 120 students per year
+                    through TS EAMCET.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d3"></div>
+                  <div class="tl-year y3">M.E.</div>
+                  <div class="tl-title">Digital Systems</div>
+                  <div class="tl-desc">
+                    Postgraduate specialisation in advanced digital logic, FPGA
+                    design, computer architecture, and space &amp; defence
+                    electronics applications. Industry-aligned curriculum with
+                    research thesis component.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d1"></div>
+                  <div class="tl-year y1">M.E.</div>
+                  <div class="tl-title">Microwave &amp; Radar Engineering</div>
+                  <div class="tl-desc">
+                    Specialised PG programme covering antenna design, RF
+                    systems, radar signal processing, and space communications —
+                    directly relevant to India's defence and space sectors.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d4"></div>
+                  <div class="tl-year y4">M.E.</div>
+                  <div class="tl-title">Systems &amp; Signal Processing</div>
+                  <div class="tl-desc">
+                    Deep dive into advanced DSP, adaptive filtering, image
+                    processing, and AI-driven signal analysis. Graduates pursue
+                    careers in aerospace, telecommunications, biomedical, and
+                    research institutions.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d5"></div>
+                  <div class="tl-year y5">M.E.</div>
+                  <div class="tl-title">VLSI &amp; Embedded Systems</div>
+                  <div class="tl-desc">
+                    Semiconductor design, ASIC development, SoC architecture,
+                    and real-time embedded programming — preparing students for
+                    the global chip design industry and India's growing
+                    semiconductor ecosystem.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot d2"></div>
+                  <div class="tl-year y2">Ph.D.</div>
+                  <div class="tl-title">Doctoral Research</div>
+                  <div class="tl-desc">
+                    Active PhD programme with faculty specialised across all ECE
+                    disciplines — most holding doctorates. Research areas span
+                    AI/ML, GNSS, Microwave systems, VLSI, and Communication
+                    Engineering.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /legacy-two-col -->
+
+          <!-- Quote -->
+          <div class="legacy-quote reveal">
+            <span class="q-mark">"</span>
+            <div class="q-text">
+              ECE shall be a byname for Excellence, Creativity and Enterprise.
+            </div>
+            <div class="q-source">
+              — Late Prof. K. Krishnan Nair · Founder HoD, Dept. of ECE, UCE
+              Osmania University · Est. 1959
+            </div>
+          </div>
+
+          <!-- ECE Highlights -->
+          <div class="block-header reveal" style="margin-top: 3rem">
+            <span class="block-tag green"
+              >&gt; ece_department.capabilities</span
+            >
+            <div class="block-title">
+              Research, Labs &amp; Industry Connections
+            </div>
+          </div>
+          <div class="ece-grid reveal">
+            <div class="ece-card">
+              <span class="ece-icon">🛰️</span>
+              <div class="ece-title">ISRO NavIC GPS Lab</div>
+              <div class="ece-desc">
+                The Advanced GNSS Research Laboratory — established via MoU with
+                ISRO's Space Applications Centre (SAC), Ahmedabad — houses
+                TRIMBLE, NOVATEL, and IRNSS/GAGAN receiver stations. Inaugurated
+                by ISRO Chairman Shri A.S. Kiran Kumar on 27 April 2017.
+              </div>
+            </div>
+            <div class="ece-card">
+              <span class="ece-icon">🤖</span>
+              <div class="ece-title">AI / ML Centre of Excellence</div>
+              <div class="ece-desc">
+                A dedicated CoE for Artificial Intelligence and Machine Learning
+                — enabling cutting-edge research, industry MoUs, and hands-on
+                deep learning project work for undergrads and researchers in the
+                ECE department.
+              </div>
+            </div>
+            <div class="ece-card">
+              <span class="ece-icon">🔐</span>
+              <div class="ece-title">Cyber Security Lab</div>
+              <div class="ece-desc">
+                State-of-the-art Cyber Security and Cyber Law facility training
+                the next generation of ethical hackers, security analysts, and
+                digital forensics experts — one of the few such labs in a
+                government engineering institution in Telangana.
+              </div>
+            </div>
+            <div class="ece-card">
+              <span class="ece-icon">🏭</span>
+              <div class="ece-title">Product Design &amp; 3D Manufacturing</div>
+              <div class="ece-desc">
+                The CPDDAM Centre provides students access to additive
+                manufacturing, CAD/CAM pipelines, and product prototyping tools
+                — preparing the next generation of ECE engineers for Industry
+                4.0.
+              </div>
+            </div>
+            <div class="ece-card">
+              <span class="ece-icon">💰</span>
+              <div class="ece-title">₹40 Cr TEQIP Grants</div>
+              <div class="ece-desc">
+                Successfully executed TEQIP I, II &amp; III funded by the
+                Government of India — channeling ₹40 Crores into ECE labs,
+                faculty development, research infrastructure, and student
+                welfare programmes.
+              </div>
+            </div>
+            <div class="ece-card">
+              <span class="ece-icon">🎓</span>
+              <div class="ece-title">Prof. K. Krishnan Nair Lecture Series</div>
+              <div class="ece-desc">
+                In honour of the department's founding Head, the Commemoration
+                Committee organises an annual lecture by a distinguished
+                industry or research professional — keeping the department
+                connected to the frontier of ECE practice.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /container -->
+      </section>
+
+      <!-- ─── FOOTER ─────────────────────────────────── -->
+      <footer>
+        <div class="container">
+          <div class="footer-inner">
+            <div>
+              <div class="footer-brand">AAKRUTHI 2K26</div>
+              <div class="footer-sub">ECE DEPT · UCEOU · HYDERABAD</div>
+            </div>
+            <div class="footer-links">
+              <a href="index.html">Home</a>
+              <a href="events.html">Events</a>
+              <a href="memories.html">Memories</a>
+              <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-copy">© 2026 AAKRUTHI — ALL SYSTEMS NOMINAL</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      // Animate timeline items on scroll
+      const tlObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => entry.target.classList.add("tl-vis"), i * 90);
+              tlObs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".tl-item").forEach((el) => tlObs.observe(el));
+    </script>
+  </body>
+</html>
