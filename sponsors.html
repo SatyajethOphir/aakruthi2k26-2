@@ -1,0 +1,2124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sponsors — Aakruthi 2K26 | ECE Fest UCEOU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── ROOT & RESET ─────────────────────────────────── */
+      :root {
+        --bg: #010008;
+        --bg-card: rgba(6, 0, 24, 0.95);
+        --neon-pink: #ff2bf2;
+        --neon-blue: #00f5ff;
+        --neon-green: #39ff14;
+        --neon-purple: #bf00ff;
+        --neon-orange: #ff6600;
+        --neon-gold: #ffd700;
+        --neon-silver: #c0c8d8;
+        --neon-bronze: #cd7f32;
+        --text: #e8e0ff;
+        --text-muted: #7c6fa0;
+        --border: rgba(0, 245, 255, 0.2);
+        --border-hot: rgba(255, 43, 242, 0.4);
+        --glow-pink: 0 0 20px #ff2bf2aa, 0 0 40px #ff2bf255;
+        --glow-blue: 0 0 20px #00f5ffaa, 0 0 40px #00f5ff55;
+        --glow-gold: 0 0 20px #ffd700aa, 0 0 40px #ffd70055;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Rajdhani", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ── SCANLINES ────────────────────────────────────── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px,
+          rgba(0, 0, 0, 0.08) 4px
+        );
+        pointer-events: none;
+        z-index: 9998;
+      }
+
+      /* ── CURSOR ───────────────────────────────────────── */
+      .cursor-dot {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--neon-pink);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10001;
+        box-shadow: var(--glow-pink);
+        transform: translate(-50%, -50%);
+        transition: transform 0.05s;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid var(--neon-blue);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        box-shadow: var(--glow-blue);
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          border-color 0.2s;
+      }
+      .cursor-ring.hover {
+        width: 60px;
+        height: 60px;
+        border-color: var(--neon-pink);
+        box-shadow: var(--glow-pink);
+      }
+
+      /* ── BG EFFECTS ───────────────────────────────────── */
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background-image:
+          linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(
+            ellipse 60% 40% at 10% 0%,
+            rgba(255, 43, 242, 0.12) 0,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 60% 40% at 90% 100%,
+            rgba(0, 245, 255, 0.12) 0,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 40% 60% at 50% 50%,
+            rgba(191, 0, 255, 0.06) 0,
+            transparent 70%
+          );
+      }
+
+      /* ── NAVBAR ───────────────────────────────────────── */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0 2rem;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(1, 0, 8, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+      }
+      .navbar::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--neon-pink),
+          var(--neon-blue),
+          transparent
+        );
+        opacity: 0.7;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        text-decoration: none;
+      }
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border: 1.5px solid var(--neon-pink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        background: linear-gradient(
+          135deg,
+          rgba(255, 43, 242, 0.3),
+          rgba(0, 245, 255, 0.3)
+        );
+      }
+      .nav-logo span {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: var(--neon-blue);
+        text-shadow: var(--glow-blue);
+      }
+      .nav-brand-text {
+        display: flex;
+        flex-direction: column;
+      }
+      .nav-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.15em;
+        text-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+      }
+      .nav-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.6rem;
+        color: var(--text-muted);
+        letter-spacing: 0.2em;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--neon-pink);
+        box-shadow: 0 0 8px var(--neon-pink);
+        transition: width 0.25s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--neon-blue);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+      .nav-register {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--bg);
+        background: linear-gradient(
+          135deg,
+          var(--neon-pink),
+          var(--neon-purple)
+        );
+        padding: 0.5rem 1.2rem;
+        text-decoration: none;
+        clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        font-weight: 600;
+        transition: all 0.2s;
+        box-shadow: 0 0 20px rgba(255, 43, 242, 0.4);
+      }
+      .nav-register:hover {
+        box-shadow: 0 0 35px rgba(255, 43, 242, 0.7);
+        transform: translateY(-1px);
+      }
+
+      /* Hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 6px;
+        z-index: 201;
+      }
+      .hamburger .bar {
+        width: 28px;
+        height: 2px;
+        background: var(--neon-blue);
+        transition: all 0.35s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        transform-origin: center;
+        box-shadow: 0 0 6px var(--neon-blue);
+      }
+      .hamburger.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+        background: var(--neon-pink);
+      }
+      .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      .hamburger.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+        background: var(--neon-pink);
+      }
+
+      /* Mobile menu */
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: rgba(1, 0, 8, 0.97);
+        backdrop-filter: blur(20px);
+        z-index: 200;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        opacity: 0;
+        visibility: hidden;
+        clip-path: circle(0% at calc(100% - 50px) 35px);
+        transition:
+          clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1),
+          opacity 0.3s,
+          visibility 0.3s;
+      }
+      .mobile-menu.active {
+        opacity: 1;
+        visibility: visible;
+        clip-path: circle(150% at calc(100% - 50px) 35px);
+      }
+      .mobile-nav-link {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: none;
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          color 0.3s,
+          text-shadow 0.3s,
+          opacity 0.4s,
+          transform 0.4s;
+      }
+      .mobile-menu.active .mobile-nav-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(4) {
+        transition-delay: 0.4s;
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(5) {
+        transition-delay: 0.5s;
+      }
+      .mobile-menu.active .mobile-nav-link:nth-child(6) {
+        transition-delay: 0.6s;
+      }
+      .mobile-nav-link:hover {
+        color: var(--neon-pink);
+        text-shadow: var(--glow-pink);
+      }
+      .mobile-menu-register {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        color: var(--bg);
+        background: linear-gradient(
+          135deg,
+          var(--neon-pink),
+          var(--neon-purple)
+        );
+        padding: 0.9rem 2.5rem;
+        text-decoration: none;
+        clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+        font-weight: 700;
+      }
+      .mobile-glitch {
+        position: absolute;
+        bottom: 3rem;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.6rem;
+        color: var(--text-muted);
+        letter-spacing: 0.3em;
+        opacity: 0.5;
+      }
+
+      /* ── LAYOUT ───────────────────────────────────────── */
+      main {
+        padding-top: 70px;
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* ── REVEAL ───────────────────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ── SECTION COMMON ───────────────────────────────── */
+      .section-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        color: var(--neon-pink);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.8rem;
+      }
+      .section-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text);
+      }
+      .section-title span {
+        background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .section-lead {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        max-width: 40rem;
+        margin-top: 0.8rem;
+      }
+
+      @keyframes gradient-shift {
+        0%,
+        100% {
+          background-position: 0%;
+        }
+        50% {
+          background-position: 100%;
+        }
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      /* ═══════════════════════════════════════════════════
+         HERO BANNER
+      ═══════════════════════════════════════════════════ */
+      .sponsors-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 6rem 2rem 5rem;
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .hero-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.4em;
+        color: var(--neon-green);
+        border: 1px solid rgba(57, 255, 20, 0.3);
+        padding: 0.35rem 0.9rem;
+        margin-bottom: 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(57, 255, 20, 0.05);
+      }
+      .hero-tag-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--neon-green);
+        box-shadow: 0 0 10px var(--neon-green);
+        animation: blink 1.5s ease infinite;
+      }
+
+      .sponsors-hero-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        margin-bottom: 1.5rem;
+      }
+      .sponsors-hero-title .t1 {
+        display: block;
+        color: var(--text);
+      }
+      .sponsors-hero-title .t2 {
+        display: block;
+        background: linear-gradient(
+          90deg,
+          var(--neon-gold),
+          var(--neon-pink),
+          var(--neon-blue)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200%;
+        animation: gradient-shift 4s ease infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+      }
+      .sponsors-hero-desc {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.85;
+        max-width: 38rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .hero-cta-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn-cyber {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 0.85rem 2rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+        cursor: none;
+      }
+      .btn-gold {
+        color: var(--bg);
+        background: linear-gradient(135deg, var(--neon-gold), #ff8c00);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+      }
+      .btn-gold:hover {
+        box-shadow: 0 0 45px rgba(255, 215, 0, 0.7);
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        color: var(--neon-blue);
+        border: 1px solid var(--neon-blue);
+        background: transparent;
+        box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+      }
+      .btn-outline:hover {
+        background: rgba(0, 245, 255, 0.08);
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* Stats panel on right */
+      .hero-stats-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        flex-shrink: 0;
+      }
+      .hsp-card {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        padding: 1.4rem 1.8rem;
+        text-align: center;
+        position: relative;
+        min-width: 160px;
+      }
+      .hsp-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+      }
+      .hsp-card:nth-child(1)::before {
+        background: var(--neon-gold);
+        box-shadow: 0 0 12px var(--neon-gold);
+      }
+      .hsp-card:nth-child(2)::before {
+        background: var(--neon-pink);
+        box-shadow: 0 0 12px var(--neon-pink);
+      }
+      .hsp-card:nth-child(3)::before {
+        background: var(--neon-blue);
+        box-shadow: 0 0 12px var(--neon-blue);
+      }
+      .hsp-num {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.2rem;
+        font-weight: 900;
+        line-height: 1;
+      }
+      .hsp-card:nth-child(1) .hsp-num {
+        color: var(--neon-gold);
+        text-shadow: 0 0 20px var(--neon-gold);
+      }
+      .hsp-card:nth-child(2) .hsp-num {
+        color: var(--neon-pink);
+        text-shadow: 0 0 20px var(--neon-pink);
+      }
+      .hsp-card:nth-child(3) .hsp-num {
+        color: var(--neon-blue);
+        text-shadow: 0 0 20px var(--neon-blue);
+      }
+      .hsp-lbl {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.3em;
+        color: var(--text-muted);
+        margin-top: 0.4rem;
+      }
+
+      /* ═══════════════════════════════════════════════════
+         TIER SECTION WRAPPER
+      ═══════════════════════════════════════════════════ */
+      #sponsors {
+        padding: 5rem 0 6rem;
+      }
+
+      .tier-section {
+        margin-bottom: 5rem;
+      }
+
+      /* TIER HEADER BAR */
+      .tier-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        padding: 1.2rem 2rem;
+        border: 1px solid;
+        position: relative;
+        overflow: hidden;
+      }
+      .tier-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+      }
+      .tier-header::after {
+        content: attr(data-tier);
+        position: absolute;
+        right: -0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: "Orbitron", sans-serif;
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: transparent;
+        letter-spacing: 0.3em;
+        pointer-events: none;
+        user-select: none;
+        opacity: 0.045;
+      }
+
+      /* Title tier */
+      .tier-title-hdr {
+        border-color: rgba(255, 215, 0, 0.35);
+        background: rgba(255, 215, 0, 0.03);
+      }
+      .tier-title-hdr::before {
+        background: linear-gradient(90deg, var(--neon-gold), #ff8c00);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+      .tier-title-hdr::after {
+        -webkit-text-stroke: 1px rgba(255, 215, 0, 0.12);
+      }
+
+      /* Platinum tier */
+      .tier-platinum-hdr {
+        border-color: rgba(200, 210, 255, 0.3);
+        background: rgba(200, 210, 255, 0.025);
+      }
+      .tier-platinum-hdr::before {
+        background: linear-gradient(90deg, #e0e8ff, #9db4ff);
+        box-shadow: 0 0 15px rgba(200, 210, 255, 0.4);
+      }
+      .tier-platinum-hdr::after {
+        -webkit-text-stroke: 1px rgba(200, 210, 255, 0.1);
+      }
+
+      /* Gold tier */
+      .tier-gold-hdr {
+        border-color: rgba(255, 215, 0, 0.25);
+        background: rgba(255, 215, 0, 0.02);
+      }
+      .tier-gold-hdr::before {
+        background: linear-gradient(
+          90deg,
+          var(--neon-gold),
+          var(--neon-orange)
+        );
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
+      }
+      .tier-gold-hdr::after {
+        -webkit-text-stroke: 1px rgba(255, 215, 0, 0.08);
+      }
+
+      /* Silver tier */
+      .tier-silver-hdr {
+        border-color: rgba(192, 200, 216, 0.25);
+        background: rgba(192, 200, 216, 0.02);
+      }
+      .tier-silver-hdr::before {
+        background: linear-gradient(90deg, var(--neon-silver), #888fa0);
+        box-shadow: 0 0 10px rgba(192, 200, 216, 0.3);
+      }
+      .tier-silver-hdr::after {
+        -webkit-text-stroke: 1px rgba(192, 200, 216, 0.08);
+      }
+
+      /* Bronze tier */
+      .tier-bronze-hdr {
+        border-color: rgba(205, 127, 50, 0.25);
+        background: rgba(205, 127, 50, 0.02);
+      }
+      .tier-bronze-hdr::before {
+        background: linear-gradient(90deg, var(--neon-bronze), #a0522d);
+        box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+      }
+      .tier-bronze-hdr::after {
+        -webkit-text-stroke: 1px rgba(205, 127, 50, 0.08);
+      }
+
+      /* Community / Partners tier */
+      .tier-community-hdr {
+        border-color: rgba(57, 255, 20, 0.2);
+        background: rgba(57, 255, 20, 0.015);
+      }
+      .tier-community-hdr::before {
+        background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+        box-shadow: 0 0 10px rgba(57, 255, 20, 0.25);
+      }
+      .tier-community-hdr::after {
+        -webkit-text-stroke: 1px rgba(57, 255, 20, 0.07);
+      }
+
+      .tier-icon {
+        font-size: 1.8rem;
+        flex-shrink: 0;
+      }
+      .tier-meta {
+        flex: 1;
+      }
+      .tier-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .tier-title-hdr .tier-name {
+        color: var(--neon-gold);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      }
+      .tier-platinum-hdr .tier-name {
+        color: #c8d2ff;
+        text-shadow: 0 0 20px rgba(200, 210, 255, 0.4);
+      }
+      .tier-gold-hdr .tier-name {
+        color: var(--neon-gold);
+        text-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
+      }
+      .tier-silver-hdr .tier-name {
+        color: var(--neon-silver);
+        text-shadow: 0 0 16px rgba(192, 200, 216, 0.4);
+      }
+      .tier-bronze-hdr .tier-name {
+        color: var(--neon-bronze);
+        text-shadow: 0 0 16px rgba(205, 127, 50, 0.4);
+      }
+      .tier-community-hdr .tier-name {
+        color: var(--neon-green);
+        text-shadow: 0 0 16px rgba(57, 255, 20, 0.4);
+      }
+
+      .tier-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.3em;
+        color: var(--text-muted);
+        margin-top: 0.25rem;
+      }
+      .tier-badge {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.25em;
+        padding: 0.3rem 0.75rem;
+        border: 1px solid;
+        text-transform: uppercase;
+        flex-shrink: 0;
+      }
+      .tier-title-hdr .tier-badge {
+        border-color: rgba(255, 215, 0, 0.4);
+        color: var(--neon-gold);
+        background: rgba(255, 215, 0, 0.06);
+      }
+      .tier-platinum-hdr .tier-badge {
+        border-color: rgba(200, 210, 255, 0.35);
+        color: #c8d2ff;
+        background: rgba(200, 210, 255, 0.06);
+      }
+      .tier-gold-hdr .tier-badge {
+        border-color: rgba(255, 215, 0, 0.3);
+        color: var(--neon-gold);
+        background: rgba(255, 215, 0, 0.04);
+      }
+      .tier-silver-hdr .tier-badge {
+        border-color: rgba(192, 200, 216, 0.3);
+        color: var(--neon-silver);
+        background: rgba(192, 200, 216, 0.04);
+      }
+      .tier-bronze-hdr .tier-badge {
+        border-color: rgba(205, 127, 50, 0.3);
+        color: var(--neon-bronze);
+        background: rgba(205, 127, 50, 0.04);
+      }
+      .tier-community-hdr .tier-badge {
+        border-color: rgba(57, 255, 20, 0.25);
+        color: var(--neon-green);
+        background: rgba(57, 255, 20, 0.04);
+      }
+
+      /* ── SPONSOR CARDS GRID ──────────────────────────── */
+      /* Title: 1 big card */
+      .grid-title {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      /* Platinum: 2 cards */
+      .grid-platinum {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      /* Gold: 3 cards */
+      .grid-gold {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+      }
+      /* Silver: 4 cards */
+      .grid-silver {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+      /* Bronze / Community: 5+ */
+      .grid-bronze {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+      }
+      .grid-community {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.9rem;
+      }
+
+      /* ── SPONSOR CARD ─────────────────────────────────── */
+      .sponsor-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        transition:
+          border-color 0.3s,
+          transform 0.3s,
+          box-shadow 0.3s;
+        text-decoration: none;
+        color: inherit;
+      }
+      .sponsor-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .sponsor-card:hover {
+        transform: translateY(-5px);
+      }
+      .sponsor-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      /* tier-coloured accents */
+      .sc-title::before {
+        background: linear-gradient(90deg, var(--neon-gold), #ff8c00);
+      }
+      .sc-title:hover {
+        border-color: rgba(255, 215, 0, 0.5);
+        box-shadow: 0 8px 40px rgba(255, 215, 0, 0.12);
+      }
+
+      .sc-platinum::before {
+        background: linear-gradient(90deg, #c8d2ff, #9db4ff);
+      }
+      .sc-platinum:hover {
+        border-color: rgba(200, 210, 255, 0.5);
+        box-shadow: 0 8px 40px rgba(200, 210, 255, 0.1);
+      }
+
+      .sc-gold::before {
+        background: linear-gradient(
+          90deg,
+          var(--neon-gold),
+          var(--neon-orange)
+        );
+      }
+      .sc-gold:hover {
+        border-color: rgba(255, 215, 0, 0.45);
+        box-shadow: 0 6px 30px rgba(255, 215, 0, 0.1);
+      }
+
+      .sc-silver::before {
+        background: linear-gradient(90deg, var(--neon-silver), #888fa0);
+      }
+      .sc-silver:hover {
+        border-color: rgba(192, 200, 216, 0.4);
+        box-shadow: 0 5px 25px rgba(192, 200, 216, 0.08);
+      }
+
+      .sc-bronze::before {
+        background: linear-gradient(90deg, var(--neon-bronze), #a0522d);
+      }
+      .sc-bronze:hover {
+        border-color: rgba(205, 127, 50, 0.4);
+        box-shadow: 0 5px 25px rgba(205, 127, 50, 0.08);
+      }
+
+      .sc-community::before {
+        background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+      }
+      .sc-community:hover {
+        border-color: rgba(57, 255, 20, 0.35);
+        box-shadow: 0 4px 20px rgba(57, 255, 20, 0.07);
+      }
+
+      /* LOGO placeholder area */
+      .sponsor-logo-wrap {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.4rem;
+      }
+      /* Title sponsor: extra large logo area */
+      .sc-title .sponsor-logo-wrap {
+        margin-bottom: 2rem;
+      }
+
+      .sponsor-logo-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+      /* Sizes by tier */
+      .sc-title .sponsor-logo-placeholder {
+        width: 260px;
+        height: 100px;
+        font-size: 1.6rem;
+      }
+      .sc-platinum .sponsor-logo-placeholder {
+        width: 180px;
+        height: 72px;
+        font-size: 1.15rem;
+      }
+      .sc-gold .sponsor-logo-placeholder {
+        width: 140px;
+        height: 58px;
+        font-size: 0.95rem;
+      }
+      .sc-silver .sponsor-logo-placeholder {
+        width: 110px;
+        height: 46px;
+        font-size: 0.78rem;
+      }
+      .sc-bronze .sponsor-logo-placeholder {
+        width: 90px;
+        height: 38px;
+        font-size: 0.68rem;
+      }
+      .sc-community .sponsor-logo-placeholder {
+        width: 80px;
+        height: 34px;
+        font-size: 0.62rem;
+      }
+
+      /* Placeholder colour per tier */
+      .sc-title .sponsor-logo-placeholder {
+        border: 2px solid rgba(255, 215, 0, 0.4);
+        background: rgba(255, 215, 0, 0.04);
+        color: var(--neon-gold);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      }
+      .sc-title:hover .sponsor-logo-placeholder {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+      }
+
+      .sc-platinum .sponsor-logo-placeholder {
+        border: 1.5px solid rgba(200, 210, 255, 0.3);
+        background: rgba(200, 210, 255, 0.03);
+        color: #c8d2ff;
+        text-shadow: 0 0 16px rgba(200, 210, 255, 0.4);
+      }
+      .sc-platinum:hover .sponsor-logo-placeholder {
+        box-shadow: 0 0 22px rgba(200, 210, 255, 0.18);
+      }
+
+      .sc-gold .sponsor-logo-placeholder {
+        border: 1.5px solid rgba(255, 215, 0, 0.3);
+        background: rgba(255, 215, 0, 0.03);
+        color: var(--neon-gold);
+        text-shadow: 0 0 14px rgba(255, 215, 0, 0.4);
+      }
+      .sc-gold:hover .sponsor-logo-placeholder {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.18);
+      }
+
+      .sc-silver .sponsor-logo-placeholder {
+        border: 1px solid rgba(192, 200, 216, 0.28);
+        background: rgba(192, 200, 216, 0.025);
+        color: var(--neon-silver);
+        text-shadow: 0 0 12px rgba(192, 200, 216, 0.35);
+      }
+      .sc-bronze .sponsor-logo-placeholder {
+        border: 1px solid rgba(205, 127, 50, 0.28);
+        background: rgba(205, 127, 50, 0.025);
+        color: var(--neon-bronze);
+        text-shadow: 0 0 12px rgba(205, 127, 50, 0.35);
+      }
+      .sc-community .sponsor-logo-placeholder {
+        border: 1px solid rgba(57, 255, 20, 0.22);
+        background: rgba(57, 255, 20, 0.025);
+        color: var(--neon-green);
+        text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      }
+
+      /* shimmer on logo */
+      .sponsor-logo-placeholder::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.06),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+      .sponsor-card:hover .sponsor-logo-placeholder::after {
+        left: 160%;
+      }
+
+      .sponsor-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+      }
+      .sc-title .sponsor-name {
+        font-size: 1.1rem;
+        letter-spacing: 0.15em;
+      }
+      .sc-platinum .sponsor-name {
+        font-size: 0.9rem;
+      }
+
+      .sponsor-tagline {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+      }
+      .sc-community .sponsor-name {
+        font-size: 0.72rem;
+      }
+      .sc-community .sponsor-tagline {
+        font-size: 0.55rem;
+      }
+
+      /* CORNER DECORATION on title card */
+      .sc-title .corner-tl,
+      .sc-title .corner-br {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-color: rgba(255, 215, 0, 0.35);
+        border-style: solid;
+      }
+      .sc-title .corner-tl {
+        top: 10px;
+        left: 10px;
+        border-width: 1.5px 0 0 1.5px;
+      }
+      .sc-title .corner-br {
+        bottom: 10px;
+        right: 10px;
+        border-width: 0 1.5px 1.5px 0;
+      }
+
+      /* ─ PERKS BADGE row below logo area ─ */
+      .sponsor-perks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        justify-content: center;
+        margin-top: 0.9rem;
+      }
+      .perk-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.52rem;
+        letter-spacing: 0.18em;
+        padding: 0.2rem 0.55rem;
+        border: 1px solid;
+        text-transform: uppercase;
+      }
+      .sc-title .perk-tag {
+        border-color: rgba(255, 215, 0, 0.3);
+        color: var(--neon-gold);
+        background: rgba(255, 215, 0, 0.05);
+      }
+      .sc-platinum .perk-tag {
+        border-color: rgba(200, 210, 255, 0.25);
+        color: #c8d2ff;
+        background: rgba(200, 210, 255, 0.04);
+      }
+      .sc-gold .perk-tag {
+        border-color: rgba(255, 215, 0, 0.22);
+        color: var(--neon-gold);
+        background: rgba(255, 215, 0, 0.03);
+      }
+
+      /* ═══════════════════════════════════════════════════
+         BECOME A SPONSOR CTA
+      ═══════════════════════════════════════════════════ */
+      .become-sponsor-section {
+        padding: 0 0 7rem;
+      }
+
+      .become-sponsor-wrap {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--border-hot);
+        background: var(--bg-card);
+        padding: 4rem 3rem;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 3rem;
+        align-items: center;
+      }
+      .become-sponsor-wrap::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--neon-gold),
+          var(--neon-pink),
+          var(--neon-blue)
+        );
+        background-size: 200%;
+        animation: gradient-shift 5s linear infinite;
+      }
+      .become-bg-text {
+        position: absolute;
+        right: -1rem;
+        bottom: -2rem;
+        font-family: "Orbitron", sans-serif;
+        font-size: 8rem;
+        font-weight: 900;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 215, 0, 0.04);
+        letter-spacing: 0.15em;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .become-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.4em;
+        color: var(--neon-gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.9rem;
+      }
+      .become-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(1.4rem, 2.5vw, 2rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+      }
+      .become-title .hl {
+        color: var(--neon-gold);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      }
+      .become-desc {
+        font-size: 0.92rem;
+        color: var(--text-muted);
+        line-height: 1.9;
+        max-width: 36rem;
+      }
+
+      .become-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-end;
+        flex-shrink: 0;
+      }
+      .become-actions .btn-cyber {
+        min-width: 200px;
+        justify-content: center;
+      }
+      .btn-primary {
+        color: var(--bg);
+        background: linear-gradient(
+          135deg,
+          var(--neon-pink),
+          var(--neon-purple)
+        );
+        box-shadow: 0 0 25px rgba(255, 43, 242, 0.4);
+      }
+      .btn-primary:hover {
+        box-shadow: 0 0 45px rgba(255, 43, 242, 0.7);
+        transform: translateY(-2px);
+      }
+
+      .contact-note {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.25em;
+        color: var(--text-muted);
+        text-align: right;
+      }
+
+      /* Tier benefits table */
+      .benefits-section {
+        padding: 0 0 6rem;
+      }
+      .benefits-table-wrap {
+        overflow-x: auto;
+      }
+      .benefits-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .benefits-table th,
+      .benefits-table td {
+        padding: 0.9rem 1.2rem;
+        text-align: center;
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+      }
+      .benefits-table thead th {
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .benefits-table tbody tr:nth-child(odd) td {
+        background: rgba(0, 245, 255, 0.013);
+      }
+      .benefits-table tbody tr:hover td {
+        background: rgba(0, 245, 255, 0.03);
+      }
+      .benefits-table td:first-child {
+        text-align: left;
+        color: var(--text-muted);
+      }
+      .th-title {
+        color: var(--neon-gold);
+        text-shadow: 0 0 14px rgba(255, 215, 0, 0.4);
+      }
+      .th-plat {
+        color: #c8d2ff;
+        text-shadow: 0 0 12px rgba(200, 210, 255, 0.3);
+      }
+      .th-gold {
+        color: var(--neon-gold);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      }
+      .th-silver {
+        color: var(--neon-silver);
+        text-shadow: 0 0 10px rgba(192, 200, 216, 0.3);
+      }
+      .th-bronze {
+        color: var(--neon-bronze);
+        text-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+      }
+      .check {
+        color: var(--neon-green);
+        text-shadow: 0 0 10px var(--neon-green);
+        font-size: 0.85rem;
+      }
+      .cross {
+        color: rgba(255, 43, 242, 0.3);
+      }
+      .partial {
+        color: var(--neon-orange);
+      }
+
+      /* ── FOOTER ───────────────────────────────────────── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 3rem 0;
+        position: relative;
+        overflow: hidden;
+      }
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--neon-pink),
+          var(--neon-blue),
+          transparent
+        );
+      }
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .footer-brand {
+        font-family: "Orbitron", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .footer-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.2em;
+        margin-top: 0.3rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .footer-links a {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--neon-blue);
+      }
+      .footer-copy {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.15em;
+      }
+
+      /* ── RESPONSIVE ───────────────────────────────────── */
+      @media (max-width: 1100px) {
+        .grid-silver {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .grid-bronze {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .grid-community {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      @media (max-width: 900px) {
+        .sponsors-hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-stats-panel {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .hsp-card {
+          min-width: 120px;
+          flex: 1;
+        }
+        .grid-platinum {
+          grid-template-columns: 1fr;
+        }
+        .grid-gold {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .grid-community {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .become-sponsor-wrap {
+          grid-template-columns: 1fr;
+        }
+        .become-actions {
+          align-items: flex-start;
+        }
+        .contact-note {
+          text-align: left;
+        }
+        .become-bg-text {
+          display: none;
+        }
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .nav-register {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .grid-bronze {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .grid-community {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .tier-header::after {
+          display: none;
+        }
+        .benefits-section {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .container {
+          padding: 0 1.2rem;
+        }
+        .grid-silver {
+          grid-template-columns: 1fr;
+        }
+        .become-sponsor-wrap {
+          padding: 2rem 1.5rem;
+        }
+      }
+
+      /* ── SECTION DIVIDER ──────────────────────────────── */
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 245, 255, 0.25),
+          transparent
+        );
+        margin: 0 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── NAVBAR ──────────────────────────────────────── -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">
+          <img
+            src="./assets/logo.png"
+            alt="Aakruthi Logo"
+            class="nav-logo-brand-img"
+          />
+        </div>
+        <div class="nav-brand-text">
+          <span class="nav-title">AAKRUTHI</span>
+          <span class="nav-sub">ECE FEST · UCEOU · 2K26</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" >Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="sponsors.html" class="active">Sponsors</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a href="events.html" target="_blank" class="nav-register">⚡ Register</a>
+
+      <div class="hamburger" id="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="events.html" class="mobile-nav-link">Events</a>
+      <a href="memories.html" class="mobile-nav-link">Memories</a>
+      <a href="sponsors.html" class="mobile-nav-link">Sponsors</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+      <a href="events.html" target="_blank" class="mobile-menu-register"
+        >⚡ Register Now</a
+      >
+      <div class="mobile-glitch">AAKRUTHI 2K26 · ECE · UCEOU · HYD</div>
+    </div>
+
+    <main>
+      <!-- ── HERO BANNER ────────────────────────────────── -->
+      <section>
+        <div class="sponsors-hero">
+          <div class="reveal">
+            <div class="hero-tag">
+              <span class="hero-tag-dot"></span>
+              AAKRUTHI 2K26 · POWERING INNOVATION
+            </div>
+            <h1 class="sponsors-hero-title">
+              <span class="t1">OUR</span>
+              <span class="t2">SPONSORS</span>
+            </h1>
+            <p class="sponsors-hero-desc">
+              Behind every circuit, every stage, every breakthrough moment at
+              Aakruthi 2K26 stands the visionary support of our sponsors. These
+              are the organisations fuelling the next generation of engineers.
+            </p>
+            <div class="hero-cta-group">
+              <a href="#become" class="btn-cyber btn-gold"
+                >⚡ Become a Sponsor</a
+              >
+              <a href="#sponsors" class="btn-cyber btn-outline"
+                >View Sponsors ↓</a
+              >
+            </div>
+          </div>
+          <div class="hero-stats-panel reveal">
+            <div class="hsp-card">
+              <div class="hsp-num">₹2L+</div>
+              <div class="hsp-lbl">Prize Pool</div>
+            </div>
+            <div class="hsp-card">
+              <div class="hsp-num">2000+</div>
+              <div class="hsp-lbl">Participants</div>
+            </div>
+            <div class="hsp-card">
+              <div class="hsp-num">2</div>
+              <div class="hsp-lbl">Days of Reach</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ══════════════════════════════════════════════════
+           SPONSORS GRID
+      ══════════════════════════════════════════════════ -->
+      <section id="sponsors">
+        <div class="container">
+          <!-- SECTION HEADER -->
+          <div class="section-header reveal" style="margin-bottom: 4rem">
+            <span class="section-tag">&gt; sponsors_2k26.json</span>
+            <h2 class="section-title">Fuelled by <span>Vision</span></h2>
+            <p class="section-lead">
+              The companies and organisations who make Aakruthi possible —
+              listed by partnership tier.
+            </p>
+          </div>
+
+          <!-- ── TITLE SPONSOR ─────────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-title-hdr" data-tier="TITLE">
+              <span class="tier-icon">👑</span>
+              <div class="tier-meta">
+                <div class="tier-name">Title Sponsor</div>
+                <div class="tier-sub">
+                  &gt; maximum_visibility.exe · premium partnership
+                </div>
+              </div>
+              <span class="tier-badge">Presenting Sponsor</span>
+            </div>
+            <div class="grid-title">
+              <a href="#" class="sponsor-card sc-title reveal">
+                <span class="corner-tl"></span>
+                <span class="corner-br"></span>
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">TECHCORP</div>
+                </div>
+                <div class="sponsor-name">TechCorp India Pvt. Ltd.</div>
+                <div class="sponsor-tagline">
+                  Empowering engineers since 2001 · www.techcorp.in
+                </div>
+                <div class="sponsor-perks">
+                  <span class="perk-tag">Main Stage Naming</span>
+                  <span class="perk-tag">Logo on All Collateral</span>
+                  <span class="perk-tag">Opening Ceremony Slot</span>
+                  <span class="perk-tag">Dedicated Stall · 500 sq ft</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── PLATINUM SPONSORS ──────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-platinum-hdr" data-tier="PLATINUM">
+              <span class="tier-icon">💎</span>
+              <div class="tier-meta">
+                <div class="tier-name">Platinum Sponsors</div>
+                <div class="tier-sub">
+                  &gt; premium_tier.sys · high-impact visibility
+                </div>
+              </div>
+              <span class="tier-badge">Platinum Tier</span>
+            </div>
+            <div class="grid-platinum">
+              <a href="#" class="sponsor-card sc-platinum reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">NEXGEN</div>
+                </div>
+                <div class="sponsor-name">NexGen Semiconductors</div>
+                <div class="sponsor-tagline">VLSI & Chip Design Excellence</div>
+                <div class="sponsor-perks">
+                  <span class="perk-tag">Event Co-Sponsor</span>
+                  <span class="perk-tag">Stage Banner</span>
+                  <span class="perk-tag">Stall · 200 sq ft</span>
+                </div>
+              </a>
+              <a href="#" class="sponsor-card sc-platinum reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">INFOSYS</div>
+                </div>
+                <div class="sponsor-name">Infosys Foundation</div>
+                <div class="sponsor-tagline">
+                  Driving digital transformation nationwide
+                </div>
+                <div class="sponsor-perks">
+                  <span class="perk-tag">Keynote Slot</span>
+                  <span class="perk-tag">Branding on Kits</span>
+                  <span class="perk-tag">Stall · 200 sq ft</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── GOLD SPONSORS ──────────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-gold-hdr" data-tier="GOLD">
+              <span class="tier-icon">🥇</span>
+              <div class="tier-meta">
+                <div class="tier-name">Gold Sponsors</div>
+                <div class="tier-sub">
+                  &gt; gold_tier.sys · strong brand exposure
+                </div>
+              </div>
+              <span class="tier-badge">Gold Tier</span>
+            </div>
+            <div class="grid-gold">
+              <a href="#" class="sponsor-card sc-gold reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">QUALCOMM</div>
+                </div>
+                <div class="sponsor-name">Qualcomm India</div>
+                <div class="sponsor-tagline">5G & Wireless Innovation</div>
+              </a>
+              <a href="#" class="sponsor-card sc-gold reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">TEXAS&nbsp;IB</div>
+                </div>
+                <div class="sponsor-name">Texas Instruments</div>
+                <div class="sponsor-tagline">Analog & Embedded Processing</div>
+              </a>
+              <a href="#" class="sponsor-card sc-gold reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">ARM</div>
+                </div>
+                <div class="sponsor-name">Arm Education</div>
+                <div class="sponsor-tagline">Processor Architecture & IP</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── SILVER SPONSORS ────────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-silver-hdr" data-tier="SILVER">
+              <span class="tier-icon">🥈</span>
+              <div class="tier-meta">
+                <div class="tier-name">Silver Sponsors</div>
+                <div class="tier-sub">
+                  &gt; silver_tier.sys · targeted reach
+                </div>
+              </div>
+              <span class="tier-badge">Silver Tier</span>
+            </div>
+            <div class="grid-silver">
+              <a href="#" class="sponsor-card sc-silver reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">CISCO</div>
+                </div>
+                <div class="sponsor-name">Cisco Systems</div>
+                <div class="sponsor-tagline">Networking & Cybersecurity</div>
+              </a>
+              <a href="#" class="sponsor-card sc-silver reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">BOSCH</div>
+                </div>
+                <div class="sponsor-name">Bosch India</div>
+                <div class="sponsor-tagline">IoT & Embedded Systems</div>
+              </a>
+              <a href="#" class="sponsor-card sc-silver reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">ISRO</div>
+                </div>
+                <div class="sponsor-name">ISRO – SAC</div>
+                <div class="sponsor-tagline">Space Applications Centre</div>
+              </a>
+              <a href="#" class="sponsor-card sc-silver reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">WIPRO</div>
+                </div>
+                <div class="sponsor-name">Wipro Technologies</div>
+                <div class="sponsor-tagline">Engineering Services & R&D</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── BRONZE SPONSORS ────────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-bronze-hdr" data-tier="BRONZE">
+              <span class="tier-icon">🥉</span>
+              <div class="tier-meta">
+                <div class="tier-name">Bronze Sponsors</div>
+                <div class="tier-sub">
+                  &gt; bronze_tier.sys · community presence
+                </div>
+              </div>
+              <span class="tier-badge">Bronze Tier</span>
+            </div>
+            <div class="grid-bronze">
+              <a href="#" class="sponsor-card sc-bronze reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">KPIT</div>
+                </div>
+                <div class="sponsor-name">KPIT Technologies</div>
+                <div class="sponsor-tagline">Automotive Software</div>
+              </a>
+              <a href="#" class="sponsor-card sc-bronze reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">MICRON</div>
+                </div>
+                <div class="sponsor-name">Micron Technology</div>
+                <div class="sponsor-tagline">Memory & Storage Solutions</div>
+              </a>
+              <a href="#" class="sponsor-card sc-bronze reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">ANALOG</div>
+                </div>
+                <div class="sponsor-name">Analog Devices</div>
+                <div class="sponsor-tagline">Signal Processing ICs</div>
+              </a>
+              <a href="#" class="sponsor-card sc-bronze reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">L&amp;T</div>
+                </div>
+                <div class="sponsor-name">L&amp;T Technology</div>
+                <div class="sponsor-tagline">
+                  Engineering &amp; R&D Services
+                </div>
+              </a>
+              <a href="#" class="sponsor-card sc-bronze reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">TATA</div>
+                </div>
+                <div class="sponsor-name">Tata Elxsi</div>
+                <div class="sponsor-tagline">Design & Technology Services</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── COMMUNITY PARTNERS ─────────────────────── -->
+          <div class="tier-section reveal">
+            <div class="tier-header tier-community-hdr" data-tier="COMMUNITY">
+              <span class="tier-icon">🤝</span>
+              <div class="tier-meta">
+                <div class="tier-name">Community &amp; Media Partners</div>
+                <div class="tier-sub">
+                  &gt; ecosystem_partners.log · outreach & media
+                </div>
+              </div>
+              <span class="tier-badge">Partners</span>
+            </div>
+            <div class="grid-community">
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">IEEE</div>
+                </div>
+                <div class="sponsor-name">IEEE Hyderabad Section</div>
+                <div class="sponsor-tagline">Technical Society</div>
+              </a>
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">IETE</div>
+                </div>
+                <div class="sponsor-name">IETE Hyderabad</div>
+                <div class="sponsor-tagline">Electronics Society</div>
+              </a>
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">ACM</div>
+                </div>
+                <div class="sponsor-name">ACM Student Chapter</div>
+                <div class="sponsor-tagline">Computing Society</div>
+              </a>
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">HYD HUB</div>
+                </div>
+                <div class="sponsor-name">T-Hub Hyderabad</div>
+                <div class="sponsor-tagline">Startup Ecosystem</div>
+              </a>
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">NASSCOM</div>
+                </div>
+                <div class="sponsor-name">NASSCOM</div>
+                <div class="sponsor-tagline">IT Industry Association</div>
+              </a>
+              <a href="#" class="sponsor-card sc-community reveal">
+                <div class="sponsor-logo-wrap">
+                  <div class="sponsor-logo-placeholder">CIE</div>
+                </div>
+                <div class="sponsor-name">CIE — OU</div>
+                <div class="sponsor-tagline">
+                  Centre for Innovation &amp; Entrepreneurship
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ══════════════════════════════════════════════════
+           BENEFITS TABLE
+      ══════════════════════════════════════════════════ -->
+      <section class="benefits-section">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="section-tag">&gt; tier_benefits.csv</span>
+            <h2 class="section-title">Partnership <span>Benefits</span></h2>
+            <p class="section-lead">
+              A complete breakdown of what each sponsorship tier includes.
+              Transparent. Impactful. Memorable.
+            </p>
+          </div>
+          <div class="benefits-table-wrap reveal">
+            <table class="benefits-table">
+              <thead>
+                <tr>
+                  <th style="text-align: left; color: var(--text-muted)">
+                    Benefit
+                  </th>
+                  <th class="th-title">👑 Title</th>
+                  <th class="th-plat">💎 Platinum</th>
+                  <th class="th-gold">🥇 Gold</th>
+                  <th class="th-silver">🥈 Silver</th>
+                  <th class="th-bronze">🥉 Bronze</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Event naming rights</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Logo on stage backdrop</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="partial">Small</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Logo on participant kits</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Dedicated exhibition stall</td>
+                  <td>500 sq ft</td>
+                  <td>200 sq ft</td>
+                  <td>100 sq ft</td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Social media feature posts</td>
+                  <td>10+</td>
+                  <td>6</td>
+                  <td>4</td>
+                  <td>2</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>Opening ceremony branding</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="partial">Mention</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Keynote / talk opportunity</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Certificate of partnership</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                </tr>
+                <tr>
+                  <td>Internship / recruitment drive</td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="check">✔</span></td>
+                  <td><span class="partial">Limited</span></td>
+                  <td><span class="cross">—</span></td>
+                  <td><span class="cross">—</span></td>
+                </tr>
+                <tr>
+                  <td>Complimentary registrations</td>
+                  <td>20</td>
+                  <td>10</td>
+                  <td>5</td>
+                  <td>2</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           BECOME A SPONSOR CTA
+      ══════════════════════════════════════════════════ -->
+      <section id="become" class="become-sponsor-section">
+        <div class="container">
+          <div class="become-sponsor-wrap reveal">
+            <div class="become-bg-text">SPONSOR</div>
+            <div>
+              <span class="become-tag">&gt; sponsor_application.exe</span>
+              <h2 class="become-title">
+                Want your brand at the<br />
+                <span class="hl">heart of ECE innovation?</span>
+              </h2>
+              <p class="become-desc">
+                Partner with Aakruthi 2K26 and place your brand in front of
+                2000+ engineering students, faculty, and industry professionals
+                over three high-energy days in March 2026 at UCE, Osmania
+                University, Hyderabad. Customised packages available for every
+                budget.
+              </p>
+            </div>
+            <div class="become-actions">
+              <a
+                href="mailto:aakruthi2k26@osmania.ac.in"
+                class="btn-cyber btn-gold"
+                >📧 Email Us</a
+              >
+              <a href="tel:+919177573069" class="btn-cyber btn-primary"
+                >📞 Call Now</a
+              >
+              <p class="contact-note">
+                aakruthi2k26@osmania.ac.in<br />+91 91775 73069
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FOOTER ──────────────────────────────────────── -->
+      <footer>
+        <div class="container">
+          <div class="footer-inner">
+            <div>
+              <div class="footer-brand">AAKRUTHI 2K26</div>
+              <div class="footer-sub">ECE DEPT · UCEOU · HYDERABAD</div>
+            </div>
+            <div class="footer-links">
+              <a href="index.html">Home</a>
+              <a href="events.html">Events</a>
+              <a href="sponsors.html">Sponsors</a>
+              <a href="memories.html">Memories</a>
+              <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-copy">© 2026 AAKRUTHI — ALL SYSTEMS NOMINAL</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      /* ── CURSOR ────────────────────────── */
+      /* ── SCROLL REVEAL ─────────────────── */
+      const revObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add("visible"), i * 80);
+              revObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => revObs.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,149 +1,2367 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Aakruthi 2K26 | Memories</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .memory-wall { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8rem; overflow: hidden; height: 680px; }
-    .mem-col { display: flex; flex-direction: column; gap: 0.8rem; }
-    .mem-col.up { animation: scroll-up 28s linear infinite; }
-    .mem-col.down { animation: scroll-down 34s linear infinite; }
-    .mem-col.up2 { animation: scroll-up 22s linear infinite; }
-    @keyframes scroll-up { 0%{transform:translateY(0)} 100%{transform:translateY(-50%)} }
-    @keyframes scroll-down { 0%{transform:translateY(-50%)} 100%{transform:translateY(0)} }
-    .mem-item { position:relative; overflow:hidden; border:1px solid var(--border); flex-shrink:0; aspect-ratio:4/3; }
-    .mem-item img { width:100%;height:100%;object-fit:cover;filter:saturate(0.5) brightness(0.7);transition:filter 0.5s; }
-    .mem-item:hover img { filter:saturate(1.1) brightness(0.9); }
-    .mem-item::after { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,43,242,0.1),rgba(0,245,255,0.1));opacity:0;transition:opacity 0.3s; }
-    .mem-item:hover::after { opacity:1; }
-    .mem-wall-wrap { position:relative; }
-    .mem-wall-wrap::before, .mem-wall-wrap::after { content:'';position:absolute;left:0;right:0;height:120px;z-index:2;pointer-events:none; }
-    .mem-wall-wrap::before { top:0;background:linear-gradient(180deg,var(--bg),transparent); }
-    .mem-wall-wrap::after { bottom:0;background:linear-gradient(0deg,var(--bg),transparent); }
-    @media(max-width:768px){.memory-wall{grid-template-columns:1fr 1fr;height:500px;}.mem-col:last-child{display:none;}}
-    @media(max-width:480px){.memory-wall{grid-template-columns:1fr;height:400px;}.mem-col:nth-child(2){display:none;}}
-  </style>
-</head>
-<body>
-<div class="bg-grid"></div>
-<div class="bg-glow"></div>
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div id="loader">
-  <div class="loader-grid">
-    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
-    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
-    <div class="loader-cell"></div><div class="loader-cell"></div><div class="loader-cell"></div>
-  </div>
-  <div class="loader-bar"></div>
-  <div class="loader-text">ACCESSING MEMORY ARCHIVE...</div>
-</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aakruthi 2K26 | Memories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ── Brand logo hex wrapper ── */
+      .nav-logo-hex {
+        width: 42px;
+        height: 42px;
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        background: linear-gradient(
+          135deg,
+          rgba(255, 43, 242, 0.3),
+          rgba(0, 245, 255, 0.3)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .nav-brand-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: drop-shadow(0 0 6px rgba(0, 245, 255, 0.8));
+        transition: filter 0.3s;
+      }
+      .nav-brand:hover .nav-brand-logo {
+        filter: drop-shadow(0 0 10px rgba(255, 43, 242, 0.9));
+      }
 
-<nav class="navbar">
-  <a href="index.html" class="nav-brand">
-    <div class="nav-logo"><span>AK</span></div>
-    <div class="nav-brand-text">
-      <span class="nav-title">AAKRUTHI</span>
-      <span class="nav-sub">ECE FEST · UCEOU · 2K26</span>
+      /* ══════════════════════════════════════════════
+         MEMORY WALL — LAYOUT & SCROLL FLOW
+      ══════════════════════════════════════════════ */
+      .memory-wall {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 1rem;
+        row-gap: 0;
+        height: 700px;
+        overflow: hidden;
+        position: relative;
+        align-items: start;
+      }
+
+      .mem-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        overflow: visible;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        will-change: transform;
+      }
+
+      .mem-col.up {
+        animation: mem-scroll-up 30s linear infinite;
+      }
+      .mem-col.down {
+        animation: mem-scroll-down 35s linear infinite;
+      }
+      .mem-col.up2 {
+        animation: mem-scroll-up 22s linear infinite;
+      }
+
+      @keyframes mem-scroll-up {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+        to {
+          transform: translate3d(0, -50%, 0);
+        }
+      }
+      @keyframes mem-scroll-down {
+        from {
+          transform: translate3d(0, -50%, 0);
+        }
+        to {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      .gallery-paused .mem-col {
+        animation-play-state: paused !important;
+      }
+
+      /* ══════════════════════════════════════════════
+         IMAGE CARDS
+      ══════════════════════════════════════════════ */
+      .mem-item {
+        position: relative;
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        aspect-ratio: 4 / 3;
+        cursor: pointer;
+        background: #08081a;
+        margin-bottom: 1rem;
+        transition:
+          border-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+      .mem-item:hover {
+        border-color: rgba(0, 245, 255, 0.45);
+        box-shadow:
+          0 0 18px rgba(0, 245, 255, 0.12),
+          inset 0 0 18px rgba(0, 245, 255, 0.04);
+      }
+
+      .mem-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: linear-gradient(
+          105deg,
+          #08081a 25%,
+          #12122e 45%,
+          #1a1a40 50%,
+          #12122e 55%,
+          #08081a 75%
+        );
+        background-size: 300% 100%;
+        animation: mem-shimmer 2s infinite ease-in-out;
+      }
+      .mem-item.img-done::before {
+        animation: none;
+        background: #08081a;
+      }
+      @keyframes mem-shimmer {
+        0% {
+          background-position: 150% 0;
+        }
+        100% {
+          background-position: -150% 0;
+        }
+      }
+
+      .mem-item img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        opacity: 0;
+        filter: saturate(0.45) brightness(0.65);
+        transition:
+          opacity 0.55s ease,
+          filter 0.55s ease,
+          transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: scale(1);
+      }
+      .mem-item img.img-loaded {
+        opacity: 1;
+      }
+      .mem-item:hover img.img-loaded {
+        filter: saturate(1.05) brightness(0.88);
+        transform: scale(1.07);
+      }
+
+      .mem-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 43, 242, 0.08),
+          rgba(0, 245, 255, 0.08)
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+      .mem-item:hover::after {
+        opacity: 1;
+      }
+
+      .mem-error {
+        display: none;
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: #08081a;
+        color: #1e1e3a;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+      }
+      .mem-error svg {
+        opacity: 0.25;
+      }
+      .mem-item.img-broken img {
+        display: none;
+      }
+      .mem-item.img-broken::before {
+        animation: none;
+        background: #08081a;
+      }
+      .mem-item.img-broken::after {
+        display: none;
+      }
+      .mem-item.img-broken .mem-error {
+        display: flex;
+      }
+      .mem-item img,
+      .mem-item .mem-error {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ══════════════════════════════════════════════
+         FADE MASKS
+      ══════════════════════════════════════════════ */
+      .mem-wall-wrap {
+        position: relative;
+      }
+      .mem-wall-wrap::before,
+      .mem-wall-wrap::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        pointer-events: none;
+      }
+      .mem-wall-wrap::before {
+        top: 0;
+        height: 140px;
+        background: linear-gradient(180deg, var(--bg) 20%, transparent 100%);
+      }
+      .mem-wall-wrap::after {
+        bottom: 0;
+        height: 140px;
+        background: linear-gradient(0deg, var(--bg) 20%, transparent 100%);
+      }
+
+      /* ══════════════════════════════════════════════
+         GALLERY CONTROLS
+      ══════════════════════════════════════════════ */
+      .gallery-controls {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 1rem 1rem 0;
+      }
+      .gal-btn {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.4rem 1rem;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+        user-select: none;
+        line-height: 1.4;
+      }
+      .gal-btn:hover {
+        border-color: var(--neon-blue);
+        color: var(--neon-blue);
+      }
+      .gal-btn.active {
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+        background: rgba(255, 43, 242, 0.07);
+      }
+
+      .gal-playpause {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 50%;
+        border: 1px solid var(--neon-blue);
+        background: transparent;
+        color: var(--neon-blue);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition:
+          background 0.2s,
+          box-shadow 0.2s,
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .gal-playpause:hover {
+        background: rgba(0, 245, 255, 0.1);
+        box-shadow: 0 0 14px rgba(0, 245, 255, 0.3);
+      }
+      .gal-playpause.paused {
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+      }
+      .gal-playpause.paused:hover {
+        background: rgba(255, 43, 242, 0.1);
+        box-shadow: 0 0 14px rgba(255, 43, 242, 0.3);
+      }
+
+      .ctrl-sep {
+        width: 1px;
+        height: 1.4rem;
+        background: var(--border);
+        flex-shrink: 0;
+      }
+
+      .speed-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.15em;
+        color: var(--text-muted);
+      }
+      .speed-val {
+        min-width: 2.8rem;
+        color: var(--neon-blue);
+      }
+
+      input[type="range"].gal-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+        outline: none;
+        border: none;
+        cursor: pointer;
+      }
+      input[type="range"].gal-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--neon-blue);
+        box-shadow: 0 0 7px var(--neon-blue);
+        cursor: pointer;
+      }
+      input[type="range"].gal-slider::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--neon-blue);
+        box-shadow: 0 0 7px var(--neon-blue);
+        border: none;
+        cursor: pointer;
+      }
+
+      .dir-group {
+        display: flex;
+      }
+      .dir-group .gal-btn {
+        border-right-width: 0;
+      }
+      .dir-group .gal-btn:last-child {
+        border-right-width: 1px;
+      }
+
+      .gal-status {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.3em;
+        padding: 0.22rem 0.65rem;
+        border: 1px solid var(--neon-pink);
+        color: var(--neon-pink);
+        animation: gal-blink 1.4s step-end infinite;
+        user-select: none;
+      }
+      .gal-status.is-paused {
+        border-color: #2a2a2a;
+        color: #2a2a2a;
+        animation: none;
+      }
+      @keyframes gal-blink {
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      .ctrl-hint {
+        width: 100%;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.52rem;
+        letter-spacing: 0.18em;
+        color: #1e1e38;
+        text-align: center;
+        padding-top: 0.35rem;
+      }
+
+      /* ══════════════════════════════════════════════
+         LIGHTBOX
+      ══════════════════════════════════════════════ */
+      .lightbox-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: rgba(1, 0, 8, 0.96);
+        backdrop-filter: blur(8px);
+        align-items: center;
+        justify-content: center;
+      }
+      .lightbox-overlay.open {
+        display: flex;
+      }
+      .lb-inner {
+        position: relative;
+        max-width: min(92vw, 980px);
+        max-height: 90vh;
+        animation: lb-pop 0.22s ease;
+      }
+      @keyframes lb-pop {
+        from {
+          opacity: 0;
+          transform: scale(0.93);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .lb-inner img {
+        display: block;
+        max-width: 100%;
+        max-height: 88vh;
+        object-fit: contain;
+        border: 1px solid var(--neon-pink);
+        box-shadow: 0 0 50px rgba(255, 43, 242, 0.18);
+      }
+      .lb-close {
+        position: absolute;
+        top: -1.9rem;
+        right: 0;
+        background: transparent;
+        border: none;
+        color: #444;
+        font-size: 1.3rem;
+        cursor: pointer;
+        font-family: monospace;
+        transition: color 0.2s;
+        line-height: 1;
+      }
+      .lb-close:hover {
+        color: var(--neon-pink);
+      }
+      .lb-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(1, 0, 8, 0.7);
+        border: 1px solid #222;
+        color: #555;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1rem;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+        line-height: 1;
+      }
+      .lb-nav:hover {
+        border-color: var(--neon-blue);
+        color: var(--neon-blue);
+      }
+      .lb-prev {
+        right: calc(100% + 0.6rem);
+      }
+      .lb-next {
+        left: calc(100% + 0.6rem);
+      }
+      .lb-counter {
+        position: absolute;
+        bottom: -1.7rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.3em;
+        color: #2a2a4a;
+        white-space: nowrap;
+      }
+
+      /* ══════════════════════════════════════════════
+         RESPONSIVE
+      ══════════════════════════════════════════════ */
+      @media (max-width: 768px) {
+        .memory-wall {
+          grid-template-columns: 1fr 1fr;
+          height: 520px;
+          gap: 0.7rem;
+        }
+        .mem-col:last-child {
+          display: none;
+        }
+        .ctrl-sep {
+          display: none;
+        }
+        input[type="range"].gal-slider {
+          width: 70px;
+        }
+      }
+      @media (max-width: 480px) {
+        .memory-wall {
+          grid-template-columns: 1fr;
+          height: 440px;
+        }
+        .mem-col:nth-child(2) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div id="loader">
+      <div class="loader-grid">
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+        <div class="loader-cell"></div>
+      </div>
+      <div class="loader-bar"></div>
+      <div class="loader-text">ACCESSING MEMORY ARCHIVE...</div>
     </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="events.html">Events</a></li>
-    <li><a href="memories.html" class="active">Memories</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <a href="https://forms.gle/your-google-form-id" target="_blank" class="nav-register">⚡ Register</a>
-  <div class="hamburger" id="hamburger"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-</nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" class="mobile-nav-link">Home</a>
-  <a href="events.html" class="mobile-nav-link">Events</a>
-  <a href="memories.html" class="mobile-nav-link">Memories</a>
-  <a href="contact.html" class="mobile-nav-link">Contact</a>
-  <a href="https://forms.gle/your-google-form-id" target="_blank" class="mobile-menu-register">⚡ Register Now</a>
-  <div class="mobile-glitch">AAKRUTHI 2K26 · ECE · UCEOU · HYD</div>
-</div>
+    <!-- ── NAVBAR ─────────────────────────────────── -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-logo">
+          <img
+            src="./assets/logo.png"
+            alt="Aakruthi Logo"
+            class="nav-logo-brand-img"
+          />
+        </div>
+        <div class="nav-brand-text">
+          <span class="nav-title">AAKRUTHI</span>
+          <span class="nav-sub">ECE FEST · UCEOU · 2K26</span>
+        </div>
+      </a>
 
-<main>
-  <div class="container" style="padding-top:5rem;">
-    <div class="section-header reveal">
-      <span class="section-tag">&gt; archive_recall.db</span>
-      <h2 class="section-title">Memory <span>Archive</span></h2>
-      <p class="section-lead">Visual logs from previous Aakruthi cycles — a testament to the energy, creativity, and community that defines our fest.</p>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html" >Events</a></li>
+        <li><a href="memories.html" class="active">Memories</a></li>
+        <li><a href="sponsors.html">Sponsors</a></li>
+        <li><a href="contact.html" >Contact</a></li>
+      </ul>
+
+      <a href="events.html" target="_blank" class="nav-register">⚡ Register</a>
+
+      <div class="hamburger" id="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="events.html" class="mobile-nav-link">Events</a>
+      <a href="memories.html" class="mobile-nav-link">Memories</a>
+      <a href="sponsors.html" class="mobile-nav-link">Sponsors</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+      <a href="events.html" target="_blank" class="mobile-menu-register"
+        >⚡ Register Now</a
+      >
+      <div class="mobile-glitch">AAKRUTHI 2K26 · ECE · UCEOU · HYD</div>
     </div>
 
-    <div class="mem-wall-wrap reveal">
-      <div class="memory-wall">
-        <!-- Column 1 (scroll up) -->
-        <div class="mem-col up">
-          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <!-- Duplicated for seamless loop -->
-          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-        </div>
-        <!-- Column 2 (scroll down) -->
-        <div class="mem-col down">
-          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <!-- Duplicated -->
-          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/799091/pexels-photo-799091.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-        </div>
-        <!-- Column 3 (scroll up faster) -->
-        <div class="mem-col up2">
-          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <!-- Duplicated -->
-          <div class="mem-item"><img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-          <div class="mem-item"><img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Event"></div>
-        </div>
+    <!-- ── LIGHTBOX ───────────────────────────────── -->
+    <div
+      class="lightbox-overlay"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Photo viewer"
+    >
+      <div class="lb-inner">
+        <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+        <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">
+          ‹
+        </button>
+        <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+        <img id="lbImg" src="" alt="Memory" />
+        <div class="lb-counter" id="lbCounter">01 / 24</div>
       </div>
     </div>
 
-    <!-- Note about photos -->
-    <div style="text-align:center;padding:3rem 0;border-top:1px solid var(--border);margin-top:2rem;">
-      <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.4em;color:var(--text-muted);margin-bottom:1rem;">SUBMIT YOUR PHOTOS</div>
-      <p style="font-size:0.9rem;color:var(--text-muted);max-width:30rem;margin:0 auto 1.5rem;">Attended a past Aakruthi? Share your photos with us and get featured on this page!</p>
-      <a href="mailto:aakruthi.ece@uceou.in" class="btn-cyber btn-outline">📷 Submit Photos</a>
-    </div>
-  </div>
-</main>
+    <!-- ── MAIN ───────────────────────────────────── -->
+    <main>
+      <div class="container" style="padding-top: 5rem">
+        <div class="section-header reveal">
+          <span class="section-tag">&gt; archive_recall.db</span>
+          <h2 class="section-title">Memory <span>Archive</span></h2>
+          <p class="section-lead">
+            Visual logs from previous Aakruthi cycles — a testament to the
+            energy, creativity, and community that defines our fest.
+          </p>
+        </div>
 
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand">AAKRUTHI 2K26</div>
-        <div class="footer-sub">ECE DEPT · UCEOU · HYDERABAD</div>
+        <!-- ── WALL WRAPPER ── -->
+        <div class="mem-wall-wrap reveal">
+          <!-- CONTROLS -->
+          <div class="gallery-controls">
+            <button
+              class="gal-playpause"
+              id="btnPlayPause"
+              title="Play / Pause [Space]"
+            >
+              ⏸
+            </button>
+            <div class="ctrl-sep"></div>
+            <div class="speed-wrap">
+              <span>SPEED</span>
+              <input
+                type="range"
+                class="gal-slider"
+                id="speedSlider"
+                min="0.25"
+                max="3"
+                step="0.25"
+                value="1"
+              />
+              <span class="speed-val" id="speedVal">1×</span>
+            </div>
+            <div class="ctrl-sep"></div>
+            <div class="dir-group">
+              <button class="gal-btn active" id="btnDefault">DEFAULT</button>
+              <button class="gal-btn" id="btnReverse">REVERSE</button>
+            </div>
+            <div class="ctrl-sep"></div>
+            <div class="gal-status" id="galStatus">● LIVE</div>
+          </div>
+          <div class="ctrl-hint">
+            [SPACE] pause · [← →] speed · [CLICK IMAGE] fullscreen
+          </div>
+
+          <!-- ══ MEMORY WALL ══════════════════════════════ -->
+          <div class="memory-wall" id="memoryWall">
+            <!-- ─────────────────────────────────────────
+                 COL 1 — scroll UP (30s)
+                 12 unique items → duplicate → 24 total
+                 ───────────────────────────────────────── -->
+            <div class="mem-col up" id="col1" data-dur="30">
+              <!-- ── ORIGINAL SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/2I0A3811.JPG"
+                  alt="Aakruthi event"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <!-- svg --><svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dignitaries_brochure_aopening.JPG"
+                  alt="Dignitaries opening"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_teach_inside.JPG"
+                  alt="Event inside"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dignitaries_lighting.JPG"
+                  alt="Dignitaries lighting"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/isro_bus_inside.JPG"
+                  alt="ISRO bus"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/inside_bus1.JPG"
+                  alt="Inside bus"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/inside_bus_main.JPG"
+                  alt="Bus visit main"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_inside_bus.JPG"
+                  alt="Dignitaries bus"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/opening_ceremony.JPG"
+                  alt="Opening ceremony"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/event1.JPG"
+                  alt="Stage performance"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/event2.JPG"
+                  alt="Crowd cheering"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_teach_inside.JPG"
+                  alt="Prize distribution"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+
+              <!-- ── SEAMLESS DUPLICATE SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/2I0A3811.JPG"
+                  alt="Aakruthi event"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dignitaries_brochure_aopening.JPG"
+                  alt="Dignitaries opening"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_teach_inside.JPG"
+                  alt="Event inside"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dignitaries_lighting.JPG"
+                  alt="Dignitaries lighting"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/isro_bus_inside.JPG"
+                  alt="ISRO bus"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/inside_bus1.JPG"
+                  alt="Inside bus"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/inside_bus_main.JPG"
+                  alt="Bus visit main"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_inside_bus.JPG"
+                  alt="Dignitaries bus"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dignitaries_lighting.JPG"
+                  alt="Opening ceremony"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/stage_performance.JPG"
+                  alt="Stage performance"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dig_hodroom.JPG"
+                  alt="Crowd cheering"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/2I0A3811.JPG"
+                  alt="Prize distribution"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+            </div>
+            <!-- /col1 -->
+
+            <!-- ─────────────────────────────────────────
+                 COL 2 — scroll DOWN (35s)
+                 ───────────────────────────────────────── -->
+            <div class="mem-col down" id="col2" data-dur="35">
+              <!-- ── ORIGINAL SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/floorart_2k25.JPG"
+                  alt="Soldering workshop"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/event1.JPG"
+                  alt="Robotics display"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/event2.JPG"
+                  alt="Paper presentation"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/project_expo.JPG"
+                  alt="Project expo"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/cultural_night.JPG"
+                  alt="Cultural night"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/quiz_competition.JPG"
+                  alt="Quiz competition"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/hackathon_teams.JPG"
+                  alt="Hackathon teams"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/guest_lecture.JPG"
+                  alt="Guest lecture"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/closing_ceremony.JPG"
+                  alt="Closing ceremony"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/winners_podium.JPG"
+                  alt="Winners podium"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/lab_visit.JPG"
+                  alt="Lab visit"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/group_photo.JPG"
+                  alt="Group photo"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+
+              <!-- ── SEAMLESS DUPLICATE SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/workshop_soldering.JPG"
+                  alt="Soldering workshop"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/robotics_display.JPG"
+                  alt="Robotics display"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/paper_presentation.JPG"
+                  alt="Paper presentation"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/project_expo.JPG"
+                  alt="Project expo"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/cultural_night.JPG"
+                  alt="Cultural night"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/quiz_competition.JPG"
+                  alt="Quiz competition"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/hackathon_teams.JPG"
+                  alt="Hackathon teams"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/guest_lecture.JPG"
+                  alt="Guest lecture"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/closing_ceremony.JPG"
+                  alt="Closing ceremony"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/winners_podium.JPG"
+                  alt="Winners podium"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/lab_visit.JPG"
+                  alt="Lab visit"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/group_photo.JPG"
+                  alt="Group photo"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+            </div>
+            <!-- /col2 -->
+
+            <!-- ─────────────────────────────────────────
+                 COL 3 — scroll UP fast (22s)
+                 ───────────────────────────────────────── -->
+            <div class="mem-col up2" id="col3" data-dur="22">
+              <!-- ── ORIGINAL SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/band_performance.JPG"
+                  alt="Band performance"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dance_event.JPG"
+                  alt="Dance event"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/faculty_gathering.JPG"
+                  alt="Faculty gathering"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/stall_exhibition.JPG"
+                  alt="Stall exhibition"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/night_event.JPG"
+                  alt="Night event"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/circuit_design.JPG"
+                  alt="Circuit design"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/iot_showcase.JPG"
+                  alt="IoT showcase"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/selfie_corner.JPG"
+                  alt="Selfie corner"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/sponsor_banner.JPG"
+                  alt="Sponsor banners"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/team_volunteers.JPG"
+                  alt="Team volunteers"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/campus_view.JPG"
+                  alt="Campus view"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/farewell_moment.JPG"
+                  alt="Farewell moment"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+
+              <!-- ── SEAMLESS DUPLICATE SET ── -->
+              <div class="mem-item">
+                <img
+                  src="./assets/band_performance.JPG"
+                  alt="Band performance"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/dance_event.JPG"
+                  alt="Dance event"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/faculty_gathering.JPG"
+                  alt="Faculty gathering"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/stall_exhibition.JPG"
+                  alt="Stall exhibition"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/night_event.JPG"
+                  alt="Night event"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/circuit_design.JPG"
+                  alt="Circuit design"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/iot_showcase.JPG"
+                  alt="IoT showcase"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/selfie_corner.JPG"
+                  alt="Selfie corner"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/sponsor_banner.JPG"
+                  alt="Sponsor banners"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/team_volunteers.JPG"
+                  alt="Team volunteers"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/campus_view.JPG"
+                  alt="Campus view"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+              <div class="mem-item">
+                <img
+                  src="./assets/farewell_moment.JPG"
+                  alt="Farewell moment"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="mem-error">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" /></svg
+                  >NO SIGNAL
+                </div>
+              </div>
+            </div>
+            <!-- /col3 -->
+          </div>
+          <!-- /memory-wall -->
+        </div>
+        <!-- /mem-wall-wrap -->
+
+        <!-- Submit CTA -->
+        <div
+          style="
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+          "
+        >
+          <div
+            style="
+              font-family: &quot;Share Tech Mono&quot;, monospace;
+              font-size: 0.65rem;
+              letter-spacing: 0.4em;
+              color: var(--text-muted);
+              margin-bottom: 1rem;
+            "
+          >
+            SUBMIT YOUR PHOTOS
+          </div>
+          <p
+            style="
+              font-size: 0.9rem;
+              color: var(--text-muted);
+              max-width: 30rem;
+              margin: 0 auto 1.5rem;
+            "
+          >
+            Attended a past Aakruthi? Share your photos with us and get featured
+            on this page!
+          </p>
+          <a href="mailto:aakruthi.ece@uceou.in" class="btn-cyber btn-outline"
+            >📷 Submit Photos</a
+          >
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-        <a href="memories.html">Memories</a>
-        <a href="contact.html">Contact</a>
+      <!-- /container -->
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <div class="footer-brand">AAKRUTHI 2K26</div>
+            <div class="footer-sub">ECE DEPT · UCEOU · HYDERABAD</div>
+          </div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="events.html">Events</a>
+            <a href="memories.html">Memories</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="footer-copy">© 2026 AAKRUTHI — ALL SYSTEMS NOMINAL</div>
+        </div>
       </div>
-      <div class="footer-copy">© 2026 AAKRUTHI — ALL SYSTEMS NOMINAL</div>
-    </div>
-  </div>
-</footer>
-<script src="script.js"></script>
-</body>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,8 +1,7 @@
-// script.js — Aakruthi 2K26 Cyberpunk Website (Optimized)
+// script.js — Aakruthi 2K26 Cyberpunk Website
 
-// ─── PARTICLES.JS (Canvas-based, auto-animated, no cursor interaction) ──────
+// ─── PARTICLES.JS ────────────────────────────────────────────────────────────
 (function initParticles() {
-  // Skip particles on mobile/touch devices to prevent lag
   const isMobile =
     window.matchMedia("(max-width: 768px)").matches ||
     navigator.maxTouchPoints > 0;
@@ -22,11 +21,9 @@
   document.body.insertBefore(canvas, document.body.firstChild);
 
   const ctx = canvas.getContext("2d", { alpha: true });
-
   let W = (canvas.width = window.innerWidth);
   let H = (canvas.height = window.innerHeight);
 
-  // Debounced resize
   let resizeTimer;
   window.addEventListener(
     "resize",
@@ -37,13 +34,13 @@
         H = canvas.height = window.innerHeight;
       }, 200);
     },
-    { passive: true }
+    { passive: true },
   );
 
   const COLORS = ["#00f0ff", "#ff2d78", "#7b2fff", "#00ff9d", "#ffffff"];
-  const PARTICLE_COUNT = 70; // Reduced from 110 for performance
+  const PARTICLE_COUNT = 70;
   const CONNECTION_DIST = 120;
-  const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST; // Squared — avoids sqrt in loop
+  const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST;
 
   class Particle {
     constructor() {
@@ -61,8 +58,6 @@
     update() {
       this.x += this.vx;
       this.y += this.vy;
-
-      // Wrap edges
       if (this.x < -20) this.x = W + 20;
       if (this.x > W + 20) this.x = -20;
       if (this.y < -20) this.y = H + 20;
@@ -79,16 +74,19 @@
     }
   }
 
-  const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+  const particles = Array.from(
+    { length: PARTICLE_COUNT },
+    () => new Particle(),
+  );
 
   function drawConnections() {
     ctx.lineWidth = 0.6;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
+        const a = particles[i],
+          b = particles[j];
+        const dx = a.x - b.x,
+          dy = a.y - b.y;
         const distSq = dx * dx + dy * dy;
         if (distSq < CONNECTION_DIST_SQ) {
           const alpha = (1 - Math.sqrt(distSq) / CONNECTION_DIST) * 0.22;
@@ -105,7 +103,6 @@
     }
   }
 
-  // Pause animation when tab is not visible
   let animId;
   function loop() {
     ctx.clearRect(0, 0, W, H);
@@ -121,19 +118,16 @@
   }
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      cancelAnimationFrame(animId);
-    } else {
-      loop();
-    }
+    if (document.hidden) cancelAnimationFrame(animId);
+    else loop();
   });
 
   loop();
 })();
 
-// ─── MAIN ──────────────────────────────────────────────────────────────────
+// ─── MAIN DOMContentLoaded ────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  // ─── LOADER ───────────────────────────────────
+  // ─── LOADER ─────────────────────────────────────
   const loader = document.getElementById("loader");
   if (loader) {
     setTimeout(() => {
@@ -142,14 +136,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1400);
   }
 
-  // ─── CUSTOM CURSOR (desktop only) ────────────
+  // ─── CUSTOM CURSOR (desktop only) ───────────────
   const dot = document.getElementById("cursorDot");
   const ring = document.getElementById("cursorRing");
   const isTouchDevice = navigator.maxTouchPoints > 0;
 
   if (dot && ring && !isTouchDevice) {
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
+    let mouseX = 0,
+      mouseY = 0,
+      ringX = 0,
+      ringY = 0;
 
     document.addEventListener(
       "mousemove",
@@ -159,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dot.style.left = mouseX + "px";
         dot.style.top = mouseY + "px";
       },
-      { passive: true }
+      { passive: true },
     );
 
     function animateRing() {
@@ -172,10 +168,18 @@ document.addEventListener("DOMContentLoaded", () => {
     animateRing();
 
     document
-      .querySelectorAll("a, button, .event-card, .faq-question, .contact-btn, .filter-btn")
+      .querySelectorAll(
+        "a, button, .event-card, .faq-question, .contact-btn, .filter-btn, .mem-item, .gal-btn, .gal-playpause, .gal-slider",
+      )
       .forEach((el) => {
-        el.addEventListener("mouseenter", () => ring.classList.add("hover"), { passive: true });
-        el.addEventListener("mouseleave", () => ring.classList.remove("hover"), { passive: true });
+        el.addEventListener("mouseenter", () => ring.classList.add("hover"), {
+          passive: true,
+        });
+        el.addEventListener(
+          "mouseleave",
+          () => ring.classList.remove("hover"),
+          { passive: true },
+        );
       });
 
     document.addEventListener("mouseleave", () => {
@@ -187,12 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ring.style.opacity = "1";
     });
   } else if (dot && ring) {
-    // Hide cursor elements on touch devices
     dot.style.display = "none";
     ring.style.display = "none";
   }
 
-  // ─── HAMBURGER MENU ───────────────────────────
+  // ─── HAMBURGER MENU ─────────────────────────────
   const hamburger = document.getElementById("hamburger");
   const mobileMenu = document.getElementById("mobileMenu");
 
@@ -202,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
       mobileMenu.classList.toggle("active", isOpen);
       document.body.style.overflow = isOpen ? "hidden" : "";
     });
-
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         hamburger.classList.remove("active");
@@ -210,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";
       });
     });
-
     mobileMenu.addEventListener("click", (e) => {
       if (e.target === mobileMenu) {
         hamburger.classList.remove("active");
@@ -220,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ─── COUNTDOWN ────────────────────────────────
+  // ─── COUNTDOWN ──────────────────────────────────
   const targetDate = new Date("2026-03-12T09:00:00").getTime();
   const daysEl = document.getElementById("cd-days");
   const hoursEl = document.getElementById("cd-hours");
@@ -239,15 +240,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       daysEl.textContent = String(Math.floor(diff / 86400000)).padStart(2, "0");
-      hoursEl.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
-      minEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
-      secEl.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
+      hoursEl.textContent = String(
+        Math.floor((diff % 86400000) / 3600000),
+      ).padStart(2, "0");
+      minEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(
+        2,
+        "0",
+      );
+      secEl.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(
+        2,
+        "0",
+      );
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
 
-  // ─── SCROLL REVEAL ────────────────────────────
+  // ─── SCROLL REVEAL ──────────────────────────────
   function triggerReveal() {
     const revealEls = document.querySelectorAll(".reveal");
     if (!revealEls.length) return;
@@ -256,7 +265,8 @@ document.addEventListener("DOMContentLoaded", () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const siblings = entry.target.parentElement?.querySelectorAll(".reveal");
+            const siblings =
+              entry.target.parentElement?.querySelectorAll(".reveal");
             let idx = 0;
             if (siblings) {
               siblings.forEach((el, j) => {
@@ -268,9 +278,8 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
     );
-
     revealEls.forEach((el) => observer.observe(el));
   }
 
@@ -281,10 +290,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, 1200);
 
-  // ─── NAVBAR SCROLL EFFECT ─────────────────────
+  // ─── NAVBAR SCROLL EFFECT ────────────────────────
   const navbar = document.querySelector(".navbar");
   if (navbar) {
-    // Throttled via rAF to avoid excessive repaints
     let ticking = false;
     window.addEventListener(
       "scroll",
@@ -298,18 +306,20 @@ document.addEventListener("DOMContentLoaded", () => {
           ticking = true;
         }
       },
-      { passive: true }
+      { passive: true },
     );
   }
 
-  // ─── GLITCH TEXT RANDOM TRIGGER ───────────────
+  // ─── GLITCH TEXT RANDOM TRIGGER ──────────────────
   document.querySelectorAll(".glitch").forEach((el) => {
     setInterval(
       () => {
         el.style.animation = "none";
-        setTimeout(() => { el.style.animation = ""; }, 50);
+        setTimeout(() => {
+          el.style.animation = "";
+        }, 50);
       },
-      Math.random() * 8000 + 4000
+      Math.random() * 8000 + 4000,
     );
   });
 
@@ -340,8 +350,253 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }, 30);
         },
-        { passive: true }
+        { passive: true },
       );
     });
   }
-});
+
+  // ════════════════════════════════════════════════════════════
+  //  MEMORIES PAGE — Gallery Controls + Image Loading + Lightbox
+  //  Only runs on memories.html (checks for #memoryWall)
+  // ════════════════════════════════════════════════════════════
+  const memoryWall = document.getElementById("memoryWall");
+  if (!memoryWall) return; // not on memories page — stop here
+
+  const cols = Array.from(memoryWall.querySelectorAll(".mem-col"));
+  const btnPlayPause = document.getElementById("btnPlayPause");
+  const speedSlider = document.getElementById("speedSlider");
+  const speedValEl = document.getElementById("speedVal");
+  const btnDefault = document.getElementById("btnDefault");
+  const btnReverse = document.getElementById("btnReverse");
+  const galStatus = document.getElementById("galStatus");
+
+  // ── 1. IMAGE LOADING ────────────────────────────
+  // The critical fix: lazy loading + CSS translateY animation = browser
+  // never loads the images. We use loading="eager" in HTML + this JS
+  // fallback to manually trigger load and handle broken images.
+  memoryWall.querySelectorAll(".mem-item").forEach((item) => {
+    const img = item.querySelector("img");
+    if (!img) return;
+
+    function onLoaded() {
+      img.classList.add("img-loaded");
+      item.classList.add("img-done");
+    }
+    function onBroken() {
+      item.classList.add("img-broken", "img-done");
+    }
+
+    // If already cached and complete
+    if (img.complete) {
+      if (img.naturalWidth > 0) onLoaded();
+      else onBroken();
+    } else {
+      img.addEventListener("load", onLoaded, { once: true });
+      img.addEventListener("error", onBroken, { once: true });
+    }
+
+    // Hover: pause the individual column
+    item.addEventListener(
+      "mouseenter",
+      () => {
+        if (!paused)
+          item.closest(".mem-col").style.animationPlayState = "paused";
+      },
+      { passive: true },
+    );
+    item.addEventListener(
+      "mouseleave",
+      () => {
+        if (!paused)
+          item.closest(".mem-col").style.animationPlayState = "running";
+      },
+      { passive: true },
+    );
+
+    // Click: open lightbox
+    item.addEventListener("click", () => {
+      if (!item.classList.contains("img-broken")) openLightbox(img.src);
+    });
+  });
+
+  // ── 2. GALLERY STATE ────────────────────────────
+  let paused = false;
+  let speed = 1;
+  let reversed = false;
+
+  // Store original animation class per column
+  const origClass = cols.map((col) => {
+    if (col.classList.contains("up2")) return "up2";
+    if (col.classList.contains("down")) return "down";
+    return "up";
+  });
+
+  // What each class becomes when reversed
+  const reverseOf = { up: "down", down: "up", up2: "down" };
+
+  // Base durations matching style.css + page styles
+  const baseDur = cols.map((col) => parseFloat(col.dataset.dur) || 30);
+
+  function setDuration(col, idx) {
+    col.style.animationDuration = baseDur[idx] / speed + "s";
+  }
+
+  cols.forEach((col, i) => setDuration(col, i));
+
+  // ── 3. PLAY / PAUSE ─────────────────────────────
+  function setPaused(v) {
+    paused = v;
+    memoryWall.classList.toggle("gallery-paused", paused);
+
+    if (paused) {
+      btnPlayPause.textContent = "▶";
+      btnPlayPause.classList.add("paused");
+      galStatus.textContent = "⏸ PAUSED";
+      galStatus.classList.add("is-paused");
+    } else {
+      btnPlayPause.textContent = "⏸";
+      btnPlayPause.classList.remove("paused");
+      galStatus.textContent = "● LIVE";
+      galStatus.classList.remove("is-paused");
+      // Re-sync column hover states
+      cols.forEach((col) => {
+        col.style.animationPlayState = "running";
+      });
+    }
+  }
+
+  btnPlayPause.addEventListener("click", () => setPaused(!paused));
+
+  // ── 4. SPEED SLIDER ─────────────────────────────
+  function applySpeed(newSpeed) {
+    speed = newSpeed;
+    speedValEl.textContent = speed + "×";
+    cols.forEach((col, i) => setDuration(col, i));
+  }
+
+  speedSlider.addEventListener("input", () => {
+    applySpeed(parseFloat(speedSlider.value));
+  });
+
+  // ── 5. DIRECTION TOGGLE ─────────────────────────
+  function setDirection(rev) {
+    reversed = rev;
+    btnDefault.classList.toggle("active", !rev);
+    btnReverse.classList.toggle("active", rev);
+
+    cols.forEach((col, i) => {
+      const targetClass = rev ? reverseOf[origClass[i]] : origClass[i];
+      col.classList.remove("up", "down", "up2");
+      col.classList.add(targetClass);
+      // Re-apply duration (class change resets inline style on some browsers)
+      setDuration(col, i);
+    });
+  }
+
+  btnDefault.addEventListener("click", () => setDirection(false));
+  btnReverse.addEventListener("click", () => setDirection(true));
+
+  // ── 6. KEYBOARD SHORTCUTS ───────────────────────
+  document.addEventListener("keydown", (e) => {
+    // Don't fire if focus is on an input/textarea
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+    if (e.code === "Space") {
+      e.preventDefault();
+      setPaused(!paused);
+    }
+    if (e.code === "ArrowRight") {
+      const next = Math.min(3, parseFloat(speedSlider.value) + 0.25);
+      speedSlider.value = next;
+      applySpeed(next);
+    }
+    if (e.code === "ArrowLeft") {
+      const prev = Math.max(0.25, parseFloat(speedSlider.value) - 0.25);
+      speedSlider.value = prev;
+      applySpeed(prev);
+    }
+    if (e.code === "Escape") {
+      closeLightbox();
+    }
+  });
+
+  // ── 7. LIGHTBOX ─────────────────────────────────
+  const lightbox = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lbImg");
+  const lbClose = document.getElementById("lbClose");
+  const lbPrev = document.getElementById("lbPrev");
+  const lbNext = document.getElementById("lbNext");
+  const lbCounter = document.getElementById("lbCounter");
+
+  // Collect all successfully loaded image sources (deduplicated)
+  function getImageList() {
+    const seen = new Set();
+    return Array.from(memoryWall.querySelectorAll(".mem-item img.img-loaded"))
+      .map((img) => img.src)
+      .filter((src) => {
+        if (seen.has(src)) return false;
+        seen.add(src);
+        return true;
+      });
+  }
+
+  let lbImages = [];
+  let lbIndex = 0;
+
+  function openLightbox(src) {
+    lbImages = getImageList();
+    lbIndex = lbImages.indexOf(src);
+    if (lbIndex < 0) lbIndex = 0;
+    renderLightbox();
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+    setPaused(true);
+  }
+
+  function closeLightbox() {
+    if (!lightbox.classList.contains("open")) return;
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+    setPaused(false);
+  }
+
+  function renderLightbox() {
+    lbImg.src = lbImages[lbIndex] || "";
+    lbCounter.textContent =
+      String(lbIndex + 1).padStart(2, "0") +
+      " / " +
+      String(lbImages.length).padStart(2, "0");
+  }
+
+  function lbStep(dir) {
+    lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+    renderLightbox();
+  }
+
+  lbClose.addEventListener("click", closeLightbox);
+  lbPrev.addEventListener("click", () => lbStep(-1));
+  lbNext.addEventListener("click", () => lbStep(+1));
+
+  // Click backdrop to close
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Swipe support on mobile
+  let touchStartX = 0;
+  lightbox.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+  lightbox.addEventListener(
+    "touchend",
+    (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 45) lbStep(dx < 0 ? 1 : -1);
+    },
+    { passive: true },
+  );
+}); // end DOMContentLoaded
